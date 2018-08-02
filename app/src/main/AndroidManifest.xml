@@ -22,6 +22,9 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b8d1c46558fa5e66bade11bf332e99283ede28ba" />
     </application>
 
 </manifest>
