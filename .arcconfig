@@ -1,0 +1,5 @@
+{
+    "history.immutable": true,
+    "phabricator.uri" : "https://phabricator.vaultinnovation.com/",
+    "arc.land.onto.default": "master"
+}
