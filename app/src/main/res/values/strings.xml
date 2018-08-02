@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">IFT</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_news">News</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_advocate">Advocate</string>
+    <string name="title_contact">Contact</string>
+    <string name="title_settings">Settings</string>
+</resources>
