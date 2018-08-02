@@ -2,6 +2,7 @@ package io.grandlabs.ift.dagger
 
 import dagger.Component
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.MainActivity
 import io.grandlabs.ift.login.SignInActivity
 import javax.inject.Singleton
 
@@ -10,4 +11,5 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(signInActivity: SignInActivity)
     fun inject(application: IftApp)
+    fun inject(mainActivity: MainActivity)
 }
