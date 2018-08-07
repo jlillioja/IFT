@@ -1,19 +1,11 @@
 package io.grandlabs.ift.network
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import android.util.Log
 import io.grandlabs.ift.BuildConfig
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.R.id.passwordEntry
-import io.grandlabs.ift.R.id.usernameEntry
+import io.grandlabs.ift.defaultSharedPreferences
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
-import okhttp3.ResponseBody
-import retrofit2.Response
-import java.util.*
 import javax.inject.Inject
 
 class LoginManager
@@ -49,6 +41,7 @@ class LoginManager
                 Log.d(LOG_TAG, "Success!")
                 Log.d(LOG_TAG, "token: ${it.body()?.token}")
                 it.body()?.token?.let {
+                    token = it
                     context.defaultSharedPreferences
                             .edit()
                             .putString("authToken", it)
@@ -62,6 +55,3 @@ class LoginManager
         return result.map { if (it.isSuccessful) LoginResult.Success else LoginResult.Failure }
     }
 }
-
-inline val Context.defaultSharedPreferences: SharedPreferences
-    get() = PreferenceManager.getDefaultSharedPreferences(this)
