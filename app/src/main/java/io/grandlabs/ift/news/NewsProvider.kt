@@ -12,7 +12,7 @@ class NewsProvider @Inject constructor(
         val loginManager: LoginManager
 ) {
     fun getNews() : Observable<NewsResult> = iftClient
-            .news(1, 50, "Bearer: ${loginManager.token}")
+            .news(1, 10, "Bearer: ${loginManager.token}")
             .subscribeOn(Schedulers.io())
             .map { it.body() }
 }

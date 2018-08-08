@@ -8,18 +8,23 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ProgressBar
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.NavigationController
+import io.grandlabs.ift.NavigationState
 import io.grandlabs.ift.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class NewsFragment : Fragment() {
+class NewsListFragment : Fragment() {
 
     @Inject
     lateinit var newsProvider: NewsProvider
 
     @Inject
     lateinit var newsAdapter: NewsAdapter
+
+    @Inject
+    lateinit var navigationController: NavigationController
 
     val LOG_TAG: String = this::class.simpleName!!
 
@@ -29,6 +34,9 @@ class NewsFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_news, container, false)
         val newsListView = view.findViewById<ListView>(R.id.newsListView)
+        newsListView.setOnItemClickListener { _, _, position, _ ->
+            navigationController.navigateTo(NavigationState.NewsDetail(newsAdapter.getItem(position)))
+        }
         val spinner = view.findViewById<ProgressBar>(R.id.loadingSpinner)
 
         newsProvider.getNews()

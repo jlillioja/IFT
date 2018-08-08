@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Helvetica Neue LT Std';
+    src: url('HelveticaNeueLTStd-Cn.otf');
+}
+
+body {
+    font-family: 'Helvetica Neue LT Std';
+    font-size: 14px;
+    font-weight: normal;
+    color : #8b8d8d;
+}

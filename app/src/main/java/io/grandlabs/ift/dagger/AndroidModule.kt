@@ -4,12 +4,15 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.NavigationController
+import io.grandlabs.ift.NavigationControllerImpl
 import io.grandlabs.ift.advocate.AdvocateFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.network.RxServiceCreator
-import io.grandlabs.ift.news.NewsFragment
+import io.grandlabs.ift.news.NewsDetailFragment
+import io.grandlabs.ift.news.NewsListFragment
 import io.grandlabs.ift.settings.SettingsFragment
 import javax.inject.Singleton
 
@@ -23,7 +26,11 @@ class AndroidModule(private val application: IftApp) {
 
     @Provides
     @Singleton
-    fun provideNewsFragment(): NewsFragment = NewsFragment()
+    fun provideNewsFragment(): NewsListFragment = NewsListFragment()
+
+    @Provides
+    @Singleton
+    fun provideNewsDetailFragment(): NewsDetailFragment = NewsDetailFragment()
 
     @Provides
     @Singleton
@@ -41,4 +48,7 @@ class AndroidModule(private val application: IftApp) {
     @Singleton
     fun provideSettingsFragment(): SettingsFragment = SettingsFragment()
 
+    @Provides
+    @Singleton
+    fun provideNavigationController(): NavigationController = NavigationControllerImpl()
 }
