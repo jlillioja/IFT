@@ -2,6 +2,7 @@ package io.grandlabs.ift.news
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,10 @@ import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationState
 import io.grandlabs.ift.R
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.synthetic.main.fragment_news.view.*
 import javax.inject.Inject
 
 class NewsListFragment : Fragment() {
@@ -26,6 +30,12 @@ class NewsListFragment : Fragment() {
     @Inject
     lateinit var navigationController: NavigationController
 
+    val loadingSpinner: ProgressBar?
+        get() = view?.findViewById(R.id.loadingSpinner)
+
+
+    val disposables: CompositeDisposable = CompositeDisposable()
+
     val LOG_TAG: String = this::class.simpleName!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +43,37 @@ class NewsListFragment : Fragment() {
         IftApp.graph.inject(this)
 
         val view = inflater.inflate(R.layout.fragment_news, container, false)
-        val newsListView = view.findViewById<ListView>(R.id.newsListView)
-        newsListView.setOnItemClickListener { _, _, position, _ ->
+
+        view.newsListView.setOnItemClickListener { _, _, position, _ ->
             navigationController.navigateTo(NavigationState.NewsDetail(newsAdapter.getItem(position)))
         }
-        val spinner = view.findViewById<ProgressBar>(R.id.loadingSpinner)
 
+        view.swipeRefresh?.setOnRefreshListener {
+            refresh()
+        }
+
+        view.newsListView.adapter = newsAdapter
+
+        refresh()
+
+        return view
+    }
+
+    override fun onDestroy() {
+        disposables.dispose()
+
+        super.onDestroy()
+    }
+
+    private fun refresh() {
         newsProvider.getNews()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy {
-                    spinner.visibility = View.GONE
+                .subscribe({
+                    loadingSpinner?.visibility = View.GONE
+                    view?.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)?.isRefreshing = false
                     newsAdapter.clear()
                     newsAdapter.addAll(it.items)
                     newsAdapter.notifyDataSetChanged()
-                }
-
-        newsListView.adapter = newsAdapter
-
-        return view
+                }, {}, {}).addTo(disposables)
     }
 }

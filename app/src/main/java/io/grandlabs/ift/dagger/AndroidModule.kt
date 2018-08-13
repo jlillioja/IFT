@@ -11,6 +11,7 @@ import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.network.RxServiceCreator
+import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsListFragment
 import io.grandlabs.ift.settings.SettingsFragment
@@ -35,6 +36,10 @@ class AndroidModule(private val application: IftApp) {
     @Provides
     @Singleton
     fun provideCalendarFragment(): CalendarFragment = CalendarFragment()
+
+    @Provides
+    @Singleton
+    fun provideCalendarDetailFragment(): CalendarDetailFragment = CalendarDetailFragment()
 
     @Provides
     @Singleton

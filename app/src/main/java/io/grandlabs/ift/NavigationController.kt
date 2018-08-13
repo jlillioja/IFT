@@ -1,5 +1,6 @@
 package io.grandlabs.ift
 
+import io.grandlabs.ift.network.CalendarItem
 import io.grandlabs.ift.network.NewsItem
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
@@ -25,7 +26,9 @@ sealed class NavigationState {
     object NewsList: NavigationState()
     class NewsDetail(val item: NewsItem): NavigationState()
     object Calendar: NavigationState()
+    class CalendarDetail(val item: CalendarItem) : NavigationState()
     object Advocate: NavigationState()
     object Contact: NavigationState()
+    object Invite: NavigationState()
     object Settings: NavigationState()
 }

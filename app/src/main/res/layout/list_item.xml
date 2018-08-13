@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/newsImage"
+        android:id="@+id/image"
         android:layout_height="70dp"
         android:layout_width="94dp"
         android:layout_marginLeft="20dp"
@@ -26,11 +26,11 @@
             android:layout_height="wrap_content"
             android:textSize="14.5sp"
             android:textColor="@color/ift_teal"
-            android:id="@+id/newsTitle"/>
+            android:id="@+id/titleText"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/newsDescription"/>
+            android:id="@+id/detailText"/>
     </LinearLayout>
 
 </LinearLayout>

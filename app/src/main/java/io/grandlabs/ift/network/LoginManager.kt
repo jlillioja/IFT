@@ -5,7 +5,6 @@ import android.util.Log
 import io.grandlabs.ift.BuildConfig
 import io.grandlabs.ift.defaultSharedPreferences
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class LoginManager
@@ -22,6 +21,9 @@ class LoginManager
     private val devScope = "api-dev"
     private val grantType = "password"
 
+    private val usernameKey = "username"
+    private val passwordKey = "password"
+
     private val scope = if (BuildConfig.DEBUG) devScope else productionScope
 
     var token: String? = null
@@ -33,10 +35,20 @@ class LoginManager
             "grant_type" to grantType
     )
 
+    fun silentLogin(): Observable<LoginResult>? {
+        val username = context.defaultSharedPreferences.getString(usernameKey, null)
+        val password = context.defaultSharedPreferences.getString(passwordKey, null)
+        if (username != null && password != null) {
+            return login(username, password)
+        } else {
+            return null
+        }
+    }
+
     fun login(username: String, password: String): Observable<LoginResult> {
-        val params = defaultLoginParams.plus(mapOf("username" to username, "password" to password))
-        val result = iftClient.login(params)
-        result.subscribeBy(onNext = {
+        val params = defaultLoginParams.plus(mapOf(usernameKey to username, passwordKey to password))
+        val result = iftClient.login(params).share().replay().also { it.connect() }
+        result.subscribe({
             if (it.isSuccessful && it.body()?.token != null) {
                 Log.d(LOG_TAG, "Success!")
                 Log.d(LOG_TAG, "token: ${it.body()?.token}")
@@ -44,13 +56,15 @@ class LoginManager
                     token = it
                     context.defaultSharedPreferences
                             .edit()
+                            .putString(usernameKey, username)
+                            .putString(passwordKey, password)
                             .putString("authToken", it)
                             .apply()
                 }
             }
-        }, onError = {
-            Log.d(LOG_TAG, "Error")
-        })
+        }, {
+            Log.d(LOG_TAG, it.localizedMessage)
+        }, {})
 
         return result.map { if (it.isSuccessful) LoginResult.Success else LoginResult.Failure }
     }

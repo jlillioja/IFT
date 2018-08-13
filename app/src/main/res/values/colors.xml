@@ -5,5 +5,6 @@
     <color name="colorAccent">@color/ift_cerulean</color>
     <color name="ift_teal">#009ABC</color>
     <color name="ift_cerulean">#0068B3</color>
+    <color name="ift_pale_cerulean">#D4EEF4</color>
     <color name="neutral_grey">#434343</color>
 </resources>

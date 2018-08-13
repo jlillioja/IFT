@@ -22,8 +22,8 @@
         android:title="@string/title_contact" />
 
     <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/settings_icon"
-        android:title="@string/title_settings" />
+        android:id="@+id/navigation_invite"
+        android:icon="@drawable/invite_icon"
+        android:title="@string/title_invite" />
 
 </menu>

@@ -1,5 +1,6 @@
 package io.grandlabs.ift.network
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import io.grandlabs.ift.BuildConfig
 import io.reactivex.schedulers.Schedulers
@@ -9,22 +10,45 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import com.google.gson.JsonSyntaxException
+import com.google.gson.JsonParser
+
+
 
 object RxServiceCreator {
 
-    private const val defaultTimeout = 30
+    private const val defaultTimeout = 5L
 
     private val httpClient = OkHttpClient.Builder()
-            .connectTimeout(defaultTimeout.toLong(), TimeUnit.SECONDS)
-            .readTimeout(defaultTimeout.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(defaultTimeout.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(defaultTimeout, TimeUnit.SECONDS)
+            .readTimeout(defaultTimeout, TimeUnit.SECONDS)
+            .writeTimeout(defaultTimeout, TimeUnit.SECONDS)
             .also {
                 if (BuildConfig.DEBUG) {
-                    val logging = HttpLoggingInterceptor()
+                    val logging = HttpLoggingInterceptor(CustomHttpLogging())
+//                    val logging = HttpLoggingInterceptor()
+
                     logging.level = HttpLoggingInterceptor.Level.BODY
                     it.addInterceptor(logging)
                 }
             }
+
+    class CustomHttpLogging : HttpLoggingInterceptor.Logger {
+        override fun log(message: String) {
+            val logName = "OkHttp"
+            if (!message.startsWith("{")) {
+                Log.d(logName, message)
+                return
+            }
+            try {
+                val prettyPrintJson = GsonBuilder().setPrettyPrinting().create().toJson(JsonParser().parse(message))
+                Log.d(logName, prettyPrintJson)
+            } catch (m: JsonSyntaxException) {
+                Log.d(logName, message)
+            }
+
+        }
+    }
 
     private val gson = GsonBuilder().create()
     private val rxAdapter = RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())

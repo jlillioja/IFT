@@ -7,7 +7,8 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class NewsProvider @Inject constructor(
+class NewsProvider
+@Inject constructor(
         val iftClient: IftClient,
         val loginManager: LoginManager
 ) {

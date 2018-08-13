@@ -7,9 +7,9 @@
     <application
         android:name=".IftApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ift_icon"
+        android:roundIcon="@mipmap/ift_icon_round"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".login.SignInActivity" android:theme="@style/AppTheme.NoActionBar">
@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b8d1c46558fa5e66bade11bf332e99283ede28ba" />

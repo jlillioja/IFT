@@ -18,4 +18,13 @@ interface IftClient {
             @Header("Authorization") token: String
     ): Observable<Response<NewsResult>>
 
+    @GET("calendarevent")
+    fun calendar(
+            @Query("sorts") sort: String?,
+            @Query("filter") filter: String?,
+            @Query("Page") page: Int,
+            @Query("PageSize") pageSize: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<CalendarResult>>
+
 }

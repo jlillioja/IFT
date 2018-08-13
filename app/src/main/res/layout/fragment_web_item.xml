@@ -15,8 +15,19 @@
         android:layout_marginTop="19dp"
         android:layout_marginBottom="17dp"/>
 
+    <TextView
+        android:id="@+id/subtitleText"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16.5sp"
+        android:textColor="@color/neutral_grey"
+        android:layout_marginLeft="17dp"
+        android:layout_marginBottom="17dp"/>
+
     <ImageView
         android:id="@+id/headerImage"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="75dp" />
 

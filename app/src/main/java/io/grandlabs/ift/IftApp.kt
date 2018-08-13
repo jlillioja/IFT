@@ -20,7 +20,9 @@ class IftApp : Application() {
                 .build()
         graph.inject(this)
 
-        Fabric.with(this, Crashlytics())
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, Crashlytics())
+        }
     }
 
 }
