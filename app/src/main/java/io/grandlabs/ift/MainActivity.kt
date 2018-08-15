@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import io.grandlabs.ift.advocate.AdvocateFragment
+import io.grandlabs.ift.advocate.AdvocacyDetailFragment
+import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
+import io.grandlabs.ift.calendar.CalendarItem
 import io.grandlabs.ift.contact.ContactFragment
 import io.grandlabs.ift.invite.InviteFragment
-import io.grandlabs.ift.calendar.CalendarItem
-import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
+import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.NewsListFragment
 import io.grandlabs.ift.settings.SettingsFragment
 import io.reactivex.disposables.Disposable
@@ -29,7 +30,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var calendarDetailFragment: CalendarDetailFragment
     @Inject
-    lateinit var advocateFragment: AdvocateFragment
+    lateinit var advocacyFragment: AdvocacyFragment
+    @Inject
+    lateinit var advocacyDetailFragment: AdvocacyDetailFragment
     @Inject
     lateinit var contactFragment: ContactFragment
     @Inject
@@ -62,7 +65,8 @@ class MainActivity : AppCompatActivity() {
                 is NavigationState.NewsDetail -> navigateToNewsDetail(it.item)
                 is NavigationState.Calendar -> navigateToCalendar()
                 is NavigationState.CalendarDetail -> navigateToCalendarDetail(it.item)
-                is NavigationState.Advocate -> navigateToAdvocate()
+                is NavigationState.Advocacy -> navigateToAdvocacyCenter()
+                is NavigationState.AdvocacyDetail -> navigateToAdvocacyDetail()
                 is NavigationState.Contact -> navigateToContact()
                 is NavigationState.Invite -> navigateToInvite()
                 is NavigationState.Settings -> navigateToSettings()
@@ -80,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         when (it.itemId) {
             R.id.navigation_news -> navigationController.navigateTo(NavigationState.NewsList)
             R.id.navigation_calendar -> navigationController.navigateTo(NavigationState.Calendar)
-            R.id.navigation_advocate -> navigationController.navigateTo(NavigationState.Advocate)
+            R.id.navigation_advocate -> navigationController.navigateTo(NavigationState.Advocacy)
             R.id.navigation_contact -> navigationController.navigateTo(NavigationState.Contact)
             R.id.navigation_invite -> navigationController.navigateTo(NavigationState.Invite)
             else -> return@OnNavigationItemSelectedListener false
@@ -108,9 +112,14 @@ class MainActivity : AppCompatActivity() {
         replaceContentWith(calendarDetailFragment)
     }
 
-    private fun navigateToAdvocate() {
+    private fun navigateToAdvocacyCenter() {
         title = "Advocacy Center"
-        replaceContentWith(advocateFragment)
+        replaceContentWith(advocacyFragment)
+    }
+
+    private fun navigateToAdvocacyDetail() {
+        title = "Advocacy Center"
+        replaceContentWith(advocacyDetailFragment)
     }
 
     private fun navigateToContact() {

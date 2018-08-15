@@ -3,7 +3,8 @@ package io.grandlabs.ift.dagger
 import dagger.Component
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.MainActivity
-import io.grandlabs.ift.advocate.AdvocateFragment
+import io.grandlabs.ift.advocate.AdvocacyDetailFragment
+import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.invite.InviteFragment
 import io.grandlabs.ift.login.SignInActivity
@@ -24,5 +25,6 @@ interface ApplicationComponent {
     fun inject(calendarListFragment: CalendarFragment.CalendarListFragment)
     fun inject(inviteFragment: InviteFragment)
     fun inject(calendarDetailFragment: CalendarDetailFragment)
-    fun inject(advocateFragment: AdvocateFragment)
+    fun inject(advocacyFragment: AdvocacyFragment)
+    fun inject(advocacyDetailFragment: AdvocacyDetailFragment)
 }

@@ -1,5 +1,6 @@
 package io.grandlabs.ift
 
+import io.grandlabs.ift.advocate.AdvocacyItem
 import io.grandlabs.ift.calendar.CalendarItem
 import io.grandlabs.ift.news.NewsItem
 import io.reactivex.Observable
@@ -27,7 +28,8 @@ sealed class NavigationState {
     class NewsDetail(val item: NewsItem): NavigationState()
     object Calendar: NavigationState()
     class CalendarDetail(val item: CalendarItem) : NavigationState()
-    object Advocate: NavigationState()
+    object Advocacy: NavigationState()
+    class AdvocacyDetail(val item: AdvocacyItem): NavigationState()
     object Contact: NavigationState()
     object Invite: NavigationState()
     object Settings: NavigationState()

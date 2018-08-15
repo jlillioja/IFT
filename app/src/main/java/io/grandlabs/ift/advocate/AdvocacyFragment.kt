@@ -8,16 +8,19 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.NavigationController
+import io.grandlabs.ift.NavigationState
 
 import io.grandlabs.ift.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_advocate.view.*
 import javax.inject.Inject
 
-class AdvocateFragment : Fragment() {
+class AdvocacyFragment : Fragment() {
 
     @Inject lateinit var advocacyProvider: AdvocacyProvider
     @Inject lateinit var advocacyListAdapter: AdvocacyListAdapter
+    @Inject lateinit var navigationController: NavigationController
 
     val loadingSpinner: ProgressBar?
         get() = view?.loadingSpinner
@@ -31,6 +34,10 @@ class AdvocateFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_advocate, container, false)
 
         view.advocacyListView.adapter = advocacyListAdapter
+        view.advocacyListView.setOnItemClickListener { _, _, position, _ ->
+            val item = advocacyListAdapter.getItem(position)
+            navigationController.navigateTo(NavigationState.AdvocacyDetail(item))
+        }
 
         view.swipeRefresh?.setOnRefreshListener {
             refresh()

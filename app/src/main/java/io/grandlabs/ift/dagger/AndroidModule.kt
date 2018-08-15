@@ -6,7 +6,8 @@ import dagger.Provides
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationControllerImpl
-import io.grandlabs.ift.advocate.AdvocateFragment
+import io.grandlabs.ift.advocate.AdvocacyDetailFragment
+import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
 import io.grandlabs.ift.network.IftClient
@@ -43,7 +44,11 @@ class AndroidModule(private val application: IftApp) {
 
     @Provides
     @Singleton
-    fun provideAdvocateFragment(): AdvocateFragment = AdvocateFragment()
+    fun provideAdvocacyFragment(): AdvocacyFragment = AdvocacyFragment()
+
+    @Provides
+    @Singleton
+    fun provideAdvocacyDetailFragment():AdvocacyDetailFragment = AdvocacyDetailFragment()
 
     @Provides
     @Singleton
