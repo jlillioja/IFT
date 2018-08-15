@@ -14,7 +14,6 @@ import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationState
 import io.grandlabs.ift.R
-import io.grandlabs.ift.network.NewsItem
 import javax.inject.Inject
 
 class NewsDetailFragment : Fragment() {

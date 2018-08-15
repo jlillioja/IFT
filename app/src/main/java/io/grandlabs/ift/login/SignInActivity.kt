@@ -9,8 +9,6 @@ import android.widget.Toast
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.MainActivity
 import io.grandlabs.ift.R
-import io.grandlabs.ift.network.LoginManager
-import io.grandlabs.ift.network.LoginResult
 import io.grandlabs.ift.showProgressDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_sign_in.*

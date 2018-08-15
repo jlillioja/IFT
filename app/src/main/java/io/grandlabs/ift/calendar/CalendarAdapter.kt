@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import io.grandlabs.ift.R
 import io.grandlabs.ift.layoutInflater
-import io.grandlabs.ift.network.CalendarItem
 import kotlinx.android.synthetic.main.calendar_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,8 +1,7 @@
 package io.grandlabs.ift.news
 
 import io.grandlabs.ift.network.IftClient
-import io.grandlabs.ift.network.LoginManager
-import io.grandlabs.ift.network.NewsResult
+import io.grandlabs.ift.login.LoginManager
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

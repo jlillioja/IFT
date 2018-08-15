@@ -1,5 +1,9 @@
 package io.grandlabs.ift.network
 
+import io.grandlabs.ift.advocate.AdvocacyItem
+import io.grandlabs.ift.calendar.CalendarResult
+import io.grandlabs.ift.login.LoginSuccessResult
+import io.grandlabs.ift.news.NewsResult
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*
@@ -27,4 +31,8 @@ interface IftClient {
             @Header("Authorization") token: String
     ): Observable<Response<CalendarResult>>
 
+    @GET("advocacy")
+    fun advocacy(
+            @Header("Authorization") token: String
+    ): Observable<Response<List<AdvocacyItem>>>
 }

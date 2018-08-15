@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ProgressBar
+import android.widget.Toast
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationState
@@ -31,16 +32,19 @@ class NewsListFragment : Fragment() {
     lateinit var navigationController: NavigationController
 
     val loadingSpinner: ProgressBar?
-        get() = view?.findViewById(R.id.loadingSpinner)
+        get() = view?.loadingSpinner
 
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
     val LOG_TAG: String = this::class.simpleName!!
 
+    init {
+        IftApp.graph.inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        IftApp.graph.inject(this)
 
         val view = inflater.inflate(R.layout.fragment_news, container, false)
 
@@ -70,10 +74,14 @@ class NewsListFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     loadingSpinner?.visibility = View.GONE
-                    view?.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)?.isRefreshing = false
+                    view?.swipeRefresh?.isRefreshing = false
                     newsAdapter.clear()
                     newsAdapter.addAll(it.items)
                     newsAdapter.notifyDataSetChanged()
-                }, {}, {}).addTo(disposables)
+                }, {
+                    loadingSpinner?.visibility = View.GONE
+                    view?.swipeRefresh?.isRefreshing = false
+                    Toast.makeText(context, "Failed to load.", Toast.LENGTH_SHORT).show()
+                }, {}).addTo(disposables)
     }
 }

@@ -8,8 +8,8 @@ import io.grandlabs.ift.advocate.AdvocateFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
 import io.grandlabs.ift.invite.InviteFragment
-import io.grandlabs.ift.network.CalendarItem
-import io.grandlabs.ift.network.NewsItem
+import io.grandlabs.ift.calendar.CalendarItem
+import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsListFragment
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToAdvocate() {
-        title = "Advocate"
+        title = "Advocacy Center"
         replaceContentWith(advocateFragment)
     }
 

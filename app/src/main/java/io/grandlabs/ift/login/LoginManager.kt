@@ -1,9 +1,10 @@
-package io.grandlabs.ift.network
+package io.grandlabs.ift.login
 
 import android.content.Context
 import android.util.Log
 import io.grandlabs.ift.BuildConfig
 import io.grandlabs.ift.defaultSharedPreferences
+import io.grandlabs.ift.network.IftClient
 import io.reactivex.Observable
 import javax.inject.Inject
 

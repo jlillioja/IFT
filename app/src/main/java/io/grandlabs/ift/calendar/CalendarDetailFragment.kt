@@ -11,7 +11,7 @@ import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationState
 import io.grandlabs.ift.R
-import io.grandlabs.ift.network.CalendarItem
+import io.grandlabs.ift.calendar.CalendarItem
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*

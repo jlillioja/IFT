@@ -1,4 +1,4 @@
-package io.grandlabs.ift.network
+package io.grandlabs.ift.login
 
 import com.google.gson.annotations.SerializedName
 

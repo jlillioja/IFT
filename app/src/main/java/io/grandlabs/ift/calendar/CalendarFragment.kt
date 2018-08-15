@@ -13,8 +13,6 @@ import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationState
 import io.grandlabs.ift.R
-import io.grandlabs.ift.network.CalendarItem
-import io.grandlabs.ift.network.CalendarItemType
 import kotlinx.android.synthetic.main.fragment_calendar_list.view.*
 import javax.inject.Inject
 

@@ -1,8 +1,7 @@
 package io.grandlabs.ift.calendar
 
-import io.grandlabs.ift.network.CalendarItem
 import io.grandlabs.ift.network.IftClient
-import io.grandlabs.ift.network.LoginManager
+import io.grandlabs.ift.login.LoginManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

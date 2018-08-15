@@ -1,7 +1,7 @@
 package io.grandlabs.ift
 
-import io.grandlabs.ift.network.CalendarItem
-import io.grandlabs.ift.network.NewsItem
+import io.grandlabs.ift.calendar.CalendarItem
+import io.grandlabs.ift.news.NewsItem
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
