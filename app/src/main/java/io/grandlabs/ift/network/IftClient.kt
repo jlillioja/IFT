@@ -2,6 +2,7 @@ package io.grandlabs.ift.network
 
 import io.grandlabs.ift.advocate.AdvocacyItem
 import io.grandlabs.ift.calendar.CalendarResult
+import io.grandlabs.ift.contact.OfficeResult
 import io.grandlabs.ift.login.LoginSuccessResult
 import io.grandlabs.ift.news.NewsResult
 import io.reactivex.Observable
@@ -35,4 +36,11 @@ interface IftClient {
     fun advocacy(
             @Header("Authorization") token: String
     ): Observable<Response<List<AdvocacyItem>>>
+
+    @GET("office")
+    fun contact(
+            @Header("Authorization") token: String,
+            @Query("Page") page: Int,
+            @Query("PageSize") pageSize: Int
+    ): Observable<Response<OfficeResult>>
 }

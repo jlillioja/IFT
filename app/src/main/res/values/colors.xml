@@ -7,4 +7,6 @@
     <color name="ift_cerulean">#0068B3</color>
     <color name="ift_pale_cerulean">#D4EEF4</color>
     <color name="neutral_grey">#434343</color>
+    <color name="light_neutral_grey">#8B8D8E</color>
+    <color name="barely_visible_grey">#EAEBEB</color>
 </resources>
