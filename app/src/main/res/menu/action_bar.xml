@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/star"
+        android:title="@string/favorite"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/settings"
+        android:icon="@drawable/avatar"
+        android:title="Profile"
+        app:showAsAction="ifRoom"/>
 
 </menu>

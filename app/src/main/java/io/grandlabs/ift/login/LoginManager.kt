@@ -28,6 +28,7 @@ class LoginManager
     private val scope = if (BuildConfig.DEBUG) devScope else productionScope
 
     var token: String? = null
+    var memberId: String? = null
 
     private val defaultLoginParams = mapOf(
             "client_id" to clientId,

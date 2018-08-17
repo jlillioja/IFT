@@ -5,6 +5,7 @@ import io.grandlabs.ift.calendar.CalendarResult
 import io.grandlabs.ift.contact.OfficeResult
 import io.grandlabs.ift.login.LoginSuccessResult
 import io.grandlabs.ift.news.NewsResult
+import io.grandlabs.ift.settings.Member
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*
@@ -43,4 +44,10 @@ interface IftClient {
             @Query("Page") page: Int,
             @Query("PageSize") pageSize: Int
     ): Observable<Response<OfficeResult>>
+
+    @GET("member/{memberId}")
+    fun member(
+            @Path("memberId") memberId: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<Member>>
 }

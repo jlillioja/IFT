@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
@@ -52,6 +54,21 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
 
         navigateToNews()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.settings -> {
+                replaceContentWith(settingsFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private var navigationSubscription: Disposable? = null

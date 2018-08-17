@@ -15,4 +15,11 @@
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="sign_up_underlined"><u>SIGN UP</u></string>
     <string name="title_invite">Invite Friends</string>
+    <string name="favorite">Favorite</string>
+    <string name="share">Share the IFT app with your friends.</string>
+    <string name="help">Help us spread the word!</string>
+    <string name="invite_facebook_friends">Invite Facebook friends</string>
+    <string name="invite_twitter_followers">Invite Twitter followers</string>
+    <string name="email_your_friends">Email your friends</string>
+    <string name="message_your_friends">Message your friends</string>
 </resources>
