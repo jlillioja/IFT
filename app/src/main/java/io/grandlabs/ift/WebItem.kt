@@ -11,7 +11,7 @@ abstract class WebItem {
     abstract val content: String
     abstract val summary: String
     abstract val favoriteUrl: String
-    abstract val contentUrl: String
+    abstract val contentUrl: String?
     abstract val redirectUrl: String?
     abstract val isFavorite: Boolean
     abstract val contentId: String

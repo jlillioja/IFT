@@ -11,7 +11,7 @@ data class AdvocacyItem(
         @SerializedName("Title") override val title: String,
         @SerializedName("Summary") override val summary: String,
         @SerializedName("Content") override val content: String,
-        @SerializedName("contentUrl") override val contentUrl: String,
+        @SerializedName("contentUrl") override val contentUrl: String?,
         @SerializedName("Type") val type: Int,
         @SerializedName("EventID") val eventID: String,
         @SerializedName("EmailTo") val emailTo: String,

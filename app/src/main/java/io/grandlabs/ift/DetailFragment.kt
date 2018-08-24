@@ -5,17 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.grandlabs.ift.sharing.SharingHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
 
 abstract class DetailFragment : IftFragment() {
 
-    abstract override fun getActionBarTitle(): String
+    abstract fun getItem(): WebItem
     abstract fun getTitle(): String?
     abstract fun getRedirectUrl(): String?
     abstract fun getBodyHtml(): String?
     abstract fun fetchImage(): Observable<Drawable>
+
+    abstract fun getSharingHelper(): SharingHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web_item, container, false)
@@ -45,6 +48,22 @@ abstract class DetailFragment : IftFragment() {
             view.contentWebView.loadData(css + content, "text/html; charset=UTF-8", null)
         } else {
             view.contentWebView.loadUrl(getRedirectUrl())
+        }
+
+        view?.shareByFacebook?.setOnClickListener {
+            getSharingHelper().shareLinkByFacebook(getItem().contentUrl, this)
+        }
+
+        view?.shareByTwitter?.setOnClickListener {
+            getSharingHelper().shareLinkByTwitter("${getItem().title}\n", getItem().contentUrl)
+        }
+
+        view?.shareByEmail?.setOnClickListener {
+            getSharingHelper().shareLinkByEmail(getItem().title, getItem().contentUrl)
+        }
+
+        view?.shareBySms?.setOnClickListener {
+            getSharingHelper().shareLinkBySms(getItem().title, getItem().contentUrl)
         }
 
         return view

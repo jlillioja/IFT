@@ -49,7 +49,7 @@ class SearchFragment : IftFragment() {
         }
 
         view.searchButton.setOnClickListener {
-            loadResults(view.searchBar.query.toString())
+            loadResults(view.searchBar.text.toString())
         }
 
         return view
@@ -63,18 +63,30 @@ class SearchFragment : IftFragment() {
         ) { newsList, advocacyList -> newsList.plus(advocacyList) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onNext = {
-                            view?.loadingSpinner?.visibility = View.GONE
-                            searchResultsAdapter.clear()
-                            searchResultsAdapter.addAll(it)
-                            searchResultsAdapter.notifyDataSetChanged()
-                        },
+                        onNext = this::displayItems,
                         onError = {
-                            view?.loadingSpinner?.visibility = View.GONE
-                            Toast.makeText(context, "Failed to load.", Toast.LENGTH_SHORT).show()
+                            displayErrorRetrievingResults()
                             Log.d(LOG_TAG, it.localizedMessage)
                         }
                 )
+    }
+
+    private fun displayItems(items: List<WebItem>) {
+        view?.loadingSpinner?.visibility = View.GONE
+        if (items.isEmpty()) {
+            view?.noResults?.visibility = View.VISIBLE
+        } else {
+            view?.noResults?.visibility = View.GONE
+        }
+        searchResultsAdapter.clear()
+        searchResultsAdapter.addAll(items)
+        searchResultsAdapter.notifyDataSetChanged()
+    }
+
+    private fun displayErrorRetrievingResults() {
+        view?.loadingSpinner?.visibility = View.GONE
+        view?.noResults?.visibility = View.VISIBLE
+        Toast.makeText(context, "Failed to load.", Toast.LENGTH_SHORT).show()
     }
 
     private val LOG_TAG = this::class.simpleName

@@ -36,4 +36,5 @@
     <string name="preferences">Preferences</string>
     <string name="search">SEARCH</string>
     <string name="facebook_app_id">164249154176639</string>
+    <string name="no_results">No Results</string>
 </resources>

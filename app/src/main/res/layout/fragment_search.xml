@@ -8,11 +8,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <SearchView
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/search_icon"
+            android:padding="5dp"/>
+
+        <EditText
             android:id="@+id/searchBar"
+            android:hint="Search"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:inputType="text">
+            <requestFocus/>
+        </EditText>
 
         <TextView
             android:id="@+id/searchButton"
@@ -27,12 +39,23 @@
             android:text="@string/search"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/noResults"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results"
+        android:textSize="18sp"
+        android:textColor="@color/neutral_grey"
+        android:gravity="center"/>
+
     <ListView
         android:id="@+id/searchResultsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/loadingSpinner"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"

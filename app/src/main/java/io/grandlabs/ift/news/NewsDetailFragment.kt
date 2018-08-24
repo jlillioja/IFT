@@ -2,10 +2,8 @@ package io.grandlabs.ift.news
 
 import android.graphics.drawable.Drawable
 import fetchImageFromUrl
-import io.grandlabs.ift.DetailFragment
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.NavigationController
-import io.grandlabs.ift.NavigationState
+import io.grandlabs.ift.*
+import io.grandlabs.ift.sharing.SharingHelper
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -14,23 +12,30 @@ class NewsDetailFragment : DetailFragment() {
     @Inject
     lateinit var navigationController: NavigationController
 
-    var item: NewsItem? = null
+    @Inject lateinit var mSharingHelper: SharingHelper
+
+    lateinit var item: NewsItem
 
     init {
         IftApp.graph.inject(this)
         navigationController.navigation.subscribe { if (it is NavigationState.NewsDetail) this.item = it.item }
     }
 
+    override fun getItem(): WebItem = item
+
+    override fun getSharingHelper() = mSharingHelper
+
+
     override fun getActionBarTitle(): String = "News"
 
-    override fun getTitle(): String? = item?.title
+    override fun getTitle(): String? = item.title
 
-    override fun getRedirectUrl(): String? = item?.redirectUrl
+    override fun getRedirectUrl(): String? = item.redirectUrl
 
-    override fun getBodyHtml(): String? = item?.content
+    override fun getBodyHtml(): String? = item.content
 
-    override fun fetchImage(): Observable<Drawable> = if (item?.thumbnailImage != null) {
-        fetchImageFromUrl(item?.thumbnailImage!!)
+    override fun fetchImage(): Observable<Drawable> = if (item.thumbnailImage != null) {
+        fetchImageFromUrl(item.thumbnailImage)
     } else {
         Observable.error(Throwable("No image"))
     }
