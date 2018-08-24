@@ -12,7 +12,7 @@ class NewsProvider
         val sessionManager: SessionManager
 ) {
     fun getNews() : Observable<NewsResult> = iftClient
-            .news(1, 10, sessionManager.authorizationHeader)
+            .news(sessionManager.authorizationHeader, 1, 10)
             .subscribeOn(Schedulers.io())
             .map { it.body() }
 }

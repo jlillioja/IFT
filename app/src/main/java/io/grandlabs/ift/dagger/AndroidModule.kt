@@ -15,6 +15,7 @@ import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsListFragment
+import io.grandlabs.ift.search.SearchFragment
 import io.grandlabs.ift.settings.SettingsFragment
 import javax.inject.Singleton
 
@@ -57,6 +58,10 @@ class AndroidModule(private val application: IftApp) {
     @Provides
     @Singleton
     fun provideSettingsFragment(): SettingsFragment = SettingsFragment()
+
+    @Provides
+    @Singleton
+    fun provideSearchFragment(): SearchFragment = SearchFragment()
 
     @Provides
     @Singleton

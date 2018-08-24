@@ -16,8 +16,8 @@ class NewsAdapter
 @Inject constructor(context: Context) : ArrayAdapter<NewsItem>(context, R.layout.list_item) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater = context.layoutInflater
-        val view = convertView ?: inflater.inflate(R.layout.list_item, parent, false)
+        val view = convertView
+                ?: context.layoutInflater.inflate(R.layout.list_item, parent, false)
 
         val newsItem = getItem(position)
 

@@ -26,7 +26,7 @@ class AdvocacyDetailFragment: DetailFragment() {
     }
 
     override fun getRedirectUrl(): String? {
-        return item?.url
+        return item?.contentUrl
     }
 
     override fun getBodyHtml(): String? {

@@ -1,6 +1,10 @@
 package io.grandlabs.ift.calendar
 
+import android.content.Context
+import android.graphics.drawable.Drawable
 import com.google.gson.annotations.SerializedName
+import io.grandlabs.ift.WebItem
+import io.reactivex.Observable
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -10,8 +14,9 @@ data class CalendarResult(
 )
 
 data class CalendarItem(
-        @SerializedName("Title") val title: String,
-        @SerializedName("Summary") val summary: String,
+        @SerializedName("Title") override val title: String,
+        @SerializedName("Summary") override val summary: String,
+        @SerializedName("ID") override val contentId: String,
         @SerializedName("Description") val description: String,
         @SerializedName("DateFrom") val dateFromString: String,
         @SerializedName("DateTo") val dateToString: String,
@@ -23,8 +28,7 @@ data class CalendarItem(
         @SerializedName("URL") val url: String,
         @SerializedName("MemberID") val ownerMemberID: Int,
         @SerializedName("AllDay") val allDay: Boolean
-) {
-
+) : WebItem() {
     /*
         Here's a major bummer. The JSON deserialization library we're using (GSON)
         uses unsafe magic Java classes to instantiate the data class we're using to hold the
@@ -35,6 +39,21 @@ data class CalendarItem(
         on instantiation.
     */
 
+    override val content: String
+        get() = description
+
+    override val attributedTitle: String?
+        get() = null
+    override val actionBarTitle: String
+        get() = "Calendar"
+    override val favoriteUrl: String
+        get() = "member_favoritecalendarevent"
+    override val contentUrl: String
+        get() = url
+    override val redirectUrl: String?
+        get() = null
+    override val isFavorite: Boolean
+        get() = false
     val dateFormat: DateFormat
         get() = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
 
@@ -47,6 +66,9 @@ data class CalendarItem(
     val dateTo: Date?
         get() = dateFormat.parse(dateToString)
 
+    override fun associatedImage(context: Context): Observable<Drawable>? {
+        return null
+    }
 }
 
 enum class CalendarItemType(val code: Int) {

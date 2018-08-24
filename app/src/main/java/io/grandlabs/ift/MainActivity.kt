@@ -16,6 +16,7 @@ import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.NewsListFragment
+import io.grandlabs.ift.search.SearchFragment
 import io.grandlabs.ift.settings.SettingsFragment
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     lateinit var inviteFragment: InviteFragment
     @Inject
     lateinit var settingsFragment: SettingsFragment
+    @Inject
+    lateinit var searchFragment: SearchFragment
 
     @Inject
     lateinit var navigationController: NavigationController
@@ -65,6 +68,10 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
         return when (item?.itemId) {
             R.id.settings -> {
                 replaceContentWith(settingsFragment)
+                true
+            }
+            R.id.search -> {
+                replaceContentWith(searchFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -175,6 +182,10 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     private fun navigateToSettings() {
 //        title = "Settings"
         replaceContentWith(settingsFragment)
+    }
+
+    private fun navigateToSearch() {
+        replaceContentWith(searchFragment)
     }
 
     private fun replaceContentWith(fragment: Fragment) {

@@ -4,6 +4,7 @@ import io.grandlabs.ift.advocate.AdvocacyItem
 import io.grandlabs.ift.calendar.CalendarResult
 import io.grandlabs.ift.contact.OfficeResult
 import io.grandlabs.ift.login.LoginSuccessResult
+import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.NewsResult
 import io.grandlabs.ift.settings.IftMember
 import io.grandlabs.ift.settings.LocalOffice
@@ -21,23 +22,30 @@ interface IftClient {
 
     @GET("news")
     fun news(
+            @Header("Authorization") token: String,
             @Query("Page") page: Int,
-            @Query("PageSize") pageSize: Int,
-            @Header("Authorization") token: String
+            @Query("PageSize") pageSize: Int
     ): Observable<Response<NewsResult>>
+
+    @GET("news")
+    fun filteredNews(
+            @Header("Authorization") token: String,
+            @Query("filter") filter: String
+    ): Observable<Response<List<NewsItem>>>
 
     @GET("calendarevent")
     fun calendar(
-            @Query("sorts") sort: String?,
-            @Query("filter") filter: String?,
-            @Query("Page") page: Int,
-            @Query("PageSize") pageSize: Int,
-            @Header("Authorization") token: String
+            @Header("Authorization") token: String,
+            @Query("Page") page: Int? = null,
+            @Query("PageSize") pageSize: Int? = null,
+            @Query("filter") filter: String? = null,
+            @Query("sorts") sort: String? = null
     ): Observable<Response<CalendarResult>>
 
     @GET("advocacy")
     fun advocacy(
-            @Header("Authorization") token: String
+            @Header("Authorization") token: String,
+            @Query("filter") filter: String? = null
     ): Observable<Response<List<AdvocacyItem>>>
 
     @GET("office")

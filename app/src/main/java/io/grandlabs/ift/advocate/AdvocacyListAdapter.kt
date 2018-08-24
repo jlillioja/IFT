@@ -20,7 +20,7 @@ class AdvocacyListAdapter
         view.titleText.text = advocacyItem.title
         view.detailText.text = advocacyItem.summary
 
-        view.image.setImageDrawable(advocacyItem.associatedImage(context))
+        advocacyItem.associatedImage(context)?.subscribe { view.image.setImageDrawable(it) }
 
         return view
     }

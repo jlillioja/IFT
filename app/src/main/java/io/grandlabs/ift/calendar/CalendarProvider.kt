@@ -22,11 +22,11 @@ class CalendarProvider
 
         return iftClient
                 .calendar(
-                        sortString,
-                        filterString,
+                        sessionManager.authorizationHeader,
                         1,
                         50,
-                        sessionManager.authorizationHeader)
+                        filterString,
+                        sortString)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.body()?.items }

@@ -1,10 +1,10 @@
 package io.grandlabs.ift.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
 import io.grandlabs.ift.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,11 +23,6 @@ class NewsListFragment : IftFragment() {
 
     @Inject
     lateinit var navigationController: NavigationController
-
-
-    val loadingSpinner: ProgressBar?
-        get() = view?.loadingSpinner
-
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
@@ -71,15 +66,16 @@ class NewsListFragment : IftFragment() {
         newsProvider.getNews()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    loadingSpinner?.visibility = View.GONE
+                    view?.loadingSpinner?.visibility = View.GONE
                     view?.swipeRefresh?.isRefreshing = false
                     newsAdapter.clear()
                     newsAdapter.addAll(it.items)
                     newsAdapter.notifyDataSetChanged()
                 }, {
-                    loadingSpinner?.visibility = View.GONE
+                    view?.loadingSpinner?.visibility = View.GONE
                     view?.swipeRefresh?.isRefreshing = false
                     Toast.makeText(context, "Failed to load.", Toast.LENGTH_SHORT).show()
+                    Log.d(LOG_TAG, it.localizedMessage)
                 }, {}).addTo(disposables)
     }
 }
