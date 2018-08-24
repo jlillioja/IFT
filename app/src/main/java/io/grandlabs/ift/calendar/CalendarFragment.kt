@@ -38,14 +38,14 @@ class CalendarFragment : IftFragment() {
         : FragmentPagerAdapter(supportFragmentManager) {
 
         override fun getItem(position: Int): Fragment = when (position) {
-            0 -> LocalCalendarListFragment()
+//            0 -> LocalCalendarListFragment()
             else -> IftCalendarListFragment()
         }
 
-        override fun getCount(): Int = 2
+        override fun getCount(): Int = 1
 
         override fun getPageTitle(position: Int): CharSequence? = when (position) {
-            0 -> "LOCAL/COUNCIL EVENTS"
+//            0 -> "LOCAL/COUNCIL EVENTS"
             else -> "IFT EVENTS"
         }
 

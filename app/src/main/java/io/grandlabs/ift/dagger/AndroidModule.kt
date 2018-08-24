@@ -10,6 +10,7 @@ import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
+import io.grandlabs.ift.invite.InviteFragment
 import io.grandlabs.ift.network.ApiServiceCreator
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.news.CalendarDetailFragment
@@ -54,6 +55,10 @@ class AndroidModule(private val application: IftApp) {
     @Provides
     @Singleton
     fun provideContactFragment(): ContactFragment = ContactFragment()
+
+    @Provides
+    @Singleton
+    fun provideInviteFragment(): InviteFragment = InviteFragment()
 
     @Provides
     @Singleton

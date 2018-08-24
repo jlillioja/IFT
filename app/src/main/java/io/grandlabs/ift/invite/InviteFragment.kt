@@ -1,21 +1,20 @@
 package io.grandlabs.ift.invite
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.IftFragment
 import io.grandlabs.ift.R
+import io.grandlabs.ift.sharing.SharingHelper
 import kotlinx.android.synthetic.main.fragment_invite.view.*
 import javax.inject.Inject
 
 
-class InviteFragment
-@Inject constructor() : IftFragment() {
+class InviteFragment : IftFragment() {
+
+    @Inject lateinit var sharingHelper: SharingHelper
 
     init {
         IftApp.graph.inject(this)
@@ -38,28 +37,19 @@ class InviteFragment
     override fun getActionBarTitle(): String = "Invite Friends"
 
     private fun onClickFacebook() {
-        Toast.makeText(context, "Coming soon!", Toast.LENGTH_SHORT).show()
+        sharingHelper.shareAppLinkByFacebook(this)
     }
 
     private fun onClickTwitter() {
-        Toast.makeText(context, "Coming soon!", Toast.LENGTH_SHORT).show()
+        sharingHelper.shareAppLinkByTwitter()
     }
 
     private fun onClickEmail() {
-        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "IFT App in the Google Play Store!")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "See the IFT App in the Google Play Store")
-
-        startActivity(Intent.createChooser(emailIntent, "Send Email"))
+        sharingHelper.shareAppLinkByEmail()
     }
 
     private fun onClickMessage() {
-        val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("sms"))
-        if (smsIntent.resolveActivity(activity?.packageManager) != null) {
-            startActivity(smsIntent)
-        } else {
-            Toast.makeText(context, "No SMS app available. Try email!", Toast.LENGTH_SHORT).show()
-        }
+        sharingHelper.shareAppBySms()
     }
 
 }

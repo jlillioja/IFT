@@ -95,6 +95,7 @@ class SettingsFragment : IftFragment() {
                 .subscribeBy(
                         onNext = {
                             view.preferencesList.setAdapter(PreferencesListAdapter(context!!, it.first, it.second))
+                            view.containerScrollView.fullScroll(View.FOCUS_UP)
                         },
                         onError = {
                             Log.d(LOG_TAG, it.localizedMessage)
