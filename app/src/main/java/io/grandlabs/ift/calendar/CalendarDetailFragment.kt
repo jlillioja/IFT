@@ -1,24 +1,19 @@
 package io.grandlabs.ift.news
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.NavigationController
-import io.grandlabs.ift.NavigationState
-import io.grandlabs.ift.R
+import io.grandlabs.ift.*
 import io.grandlabs.ift.calendar.CalendarItem
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class CalendarDetailFragment: Fragment() {
-
+class CalendarDetailFragment: IftFragment() {
     @Inject
     lateinit var navigationController: NavigationController
 
@@ -32,6 +27,8 @@ class CalendarDetailFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web_item, container, false)
+
+        listener?.setCurrentlySelectedFragment(this)
 
         val title = view.titleText
         title.text = item?.title
@@ -57,6 +54,8 @@ class CalendarDetailFragment: Fragment() {
 
         return view
     }
+
+    override fun getActionBarTitle(): String = item?.title ?: "Calendar"
 
     private val LOG_TAG = this::class.simpleName
 

@@ -5,7 +5,9 @@ import io.grandlabs.ift.calendar.CalendarResult
 import io.grandlabs.ift.contact.OfficeResult
 import io.grandlabs.ift.login.LoginSuccessResult
 import io.grandlabs.ift.news.NewsResult
-import io.grandlabs.ift.settings.Member
+import io.grandlabs.ift.settings.IftMember
+import io.grandlabs.ift.settings.LocalOffice
+import io.grandlabs.ift.settings.Preference
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*
@@ -49,5 +51,21 @@ interface IftClient {
     fun member(
             @Path("memberId") memberId: Int,
             @Header("Authorization") token: String
-    ): Observable<Response<Member>>
+    ): Observable<Response<IftMember>>
+
+    @GET("local/{localNum}")
+    fun local(
+            @Path("localNum") localNum: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<List<LocalOffice>>>
+
+    @GET("member_categorynews")
+    fun newsPreferences(
+            @Header("Authorization") token: String
+    ): Observable<Response<List<Preference>>>
+
+    @GET("member_categoryadvocacy")
+    fun advocacyPreferences(
+            @Header("Authorization") token: String
+    ): Observable<Response<List<Preference>>>
 }

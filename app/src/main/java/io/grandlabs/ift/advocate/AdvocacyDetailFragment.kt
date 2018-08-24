@@ -19,6 +19,8 @@ class AdvocacyDetailFragment: DetailFragment() {
         navigationController.navigation.subscribe { if (it is NavigationState.AdvocacyDetail) this.item = it.item }
     }
 
+    override fun getActionBarTitle(): String = "Advocacy Center"
+
     override fun getTitle(): String? {
         return item?.title
     }

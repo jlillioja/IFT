@@ -3,19 +3,19 @@ package io.grandlabs.ift.invite
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.IftFragment
 import io.grandlabs.ift.R
 import kotlinx.android.synthetic.main.fragment_invite.view.*
 import javax.inject.Inject
 
 
 class InviteFragment
-@Inject constructor() : Fragment() {
+@Inject constructor() : IftFragment() {
 
     init {
         IftApp.graph.inject(this)
@@ -25,6 +25,8 @@ class InviteFragment
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_invite, container, false)
 
+        listener?.setCurrentlySelectedFragment(this)
+
         view.facebook_button.setOnClickListener { onClickFacebook() }
         view.twitter_button.setOnClickListener { onClickTwitter() }
         view.email_button.setOnClickListener { onClickEmail() }
@@ -32,6 +34,8 @@ class InviteFragment
 
         return view
     }
+
+    override fun getActionBarTitle(): String = "Invite Friends"
 
     private fun onClickFacebook() {
         Toast.makeText(context, "Coming soon!", Toast.LENGTH_SHORT).show()

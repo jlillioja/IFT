@@ -9,14 +9,11 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.NavigationController
-import io.grandlabs.ift.NavigationState
-import io.grandlabs.ift.R
+import io.grandlabs.ift.*
 import kotlinx.android.synthetic.main.fragment_calendar_list.view.*
 import javax.inject.Inject
 
-class CalendarFragment : Fragment() {
+class CalendarFragment : IftFragment() {
 
     init {
         IftApp.graph.inject(this)
@@ -26,11 +23,15 @@ class CalendarFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
+        listener?.setCurrentlySelectedFragment(this)
+
         val adapter = CalendarFragmentPagerAdapter(childFragmentManager)
         view.findViewById<ViewPager>(R.id.calendarPager).adapter = adapter
 
         return view
     }
+
+    override fun getActionBarTitle(): String = "Calendar"
 
 
     class CalendarFragmentPagerAdapter(supportFragmentManager: FragmentManager)

@@ -1,7 +1,7 @@
 package io.grandlabs.ift.calendar
 
+import io.grandlabs.ift.login.SessionManager
 import io.grandlabs.ift.network.IftClient
-import io.grandlabs.ift.login.LoginManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CalendarProvider
 @Inject constructor(
         val iftClient: IftClient,
-        val loginManager: LoginManager
+        val sessionManager: SessionManager
 ) {
     fun getCalendar(): Observable<List<CalendarItem>> {
 
@@ -26,7 +26,7 @@ class CalendarProvider
                         filterString,
                         1,
                         50,
-                        "Bearer: ${loginManager.token}")
+                        sessionManager.authorizationHeader)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.body()?.items }

@@ -22,4 +22,16 @@
     <string name="invite_twitter_followers">Invite Twitter followers</string>
     <string name="email_your_friends">Email your friends</string>
     <string name="message_your_friends">Message your friends</string>
+    <string name="log_out">Log Out</string>
+    <string name="phone">Phone:</string>
+    <string name="email">Email:</string>
+    <string name="member_num">Member #:</string>
+    <string name="email_alerts">Email alerts</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="notifications">Notifications</string>
+    <string name="local_information">Local Information</string>
+    <string name="president">President:</string>
+    <string name="vice_president">Vice President:</string>
+    <string name="field_service_director">Field Service Director:</string>
+    <string name="preferences">Preferences</string>
 </resources>

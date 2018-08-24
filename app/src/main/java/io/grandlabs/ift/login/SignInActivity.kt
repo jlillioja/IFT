@@ -20,7 +20,7 @@ class SignInActivity
     val LOG_TAG = SignInActivity::class.simpleName
 
     @Inject
-    lateinit var loginManager: LoginManager
+    lateinit var sessionManager: SessionManager
 
     var progressDialog: ProgressDialog? = null
 
@@ -34,7 +34,7 @@ class SignInActivity
     override fun onResume() {
         super.onResume()
 
-        loginManager.silentLogin()?.let {
+        sessionManager.silentLogin()?.let {
             progressDialog = showProgressDialog("Signing in...")
             it.observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -46,7 +46,7 @@ class SignInActivity
 
     fun login(view: View) {
         progressDialog = showProgressDialog("Signing in...")
-        loginManager
+        sessionManager
                 .login(usernameEntry.text.toString(), passwordEntry.text.toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

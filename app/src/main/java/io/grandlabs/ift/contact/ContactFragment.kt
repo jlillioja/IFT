@@ -1,22 +1,20 @@
 package io.grandlabs.ift.contact
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.IftFragment
 
 import io.grandlabs.ift.R
-import io.grandlabs.ift.calendar.CalendarProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_contact.view.*
 import javax.inject.Inject
 
-class ContactFragment : Fragment() {
+class ContactFragment : IftFragment() {
 
     @Inject
     lateinit var contactListAdapter: ContactListAdapter
@@ -35,6 +33,8 @@ class ContactFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_contact, container, false)
 
+        listener?.setCurrentlySelectedFragment(this)
+
         view.contactListView.adapter = contactListAdapter
 
         view.swipeRefresh?.setOnRefreshListener {
@@ -45,6 +45,8 @@ class ContactFragment : Fragment() {
 
         return view
     }
+
+    override fun getActionBarTitle(): String = "Contact"
 
     private fun refresh() {
         contactProvider

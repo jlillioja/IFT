@@ -35,8 +35,8 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/phoneNumber"
-            android:autoLink="phone"
             android:layout_marginTop="5dp"
+            android:textColor="@color/ift_teal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

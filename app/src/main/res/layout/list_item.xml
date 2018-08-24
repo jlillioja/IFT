@@ -26,10 +26,12 @@
             android:layout_height="wrap_content"
             android:textSize="14.5sp"
             android:textColor="@color/ift_teal"
+            android:textStyle="bold"
             android:id="@+id/titleText"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/neutral_grey"
             android:id="@+id/detailText"/>
     </LinearLayout>
 

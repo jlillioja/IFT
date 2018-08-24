@@ -2,7 +2,7 @@ package io.grandlabs.ift.settings
 
 import com.google.gson.annotations.SerializedName
 
-data class Member(
+data class IftMember(
         @SerializedName("FirstName") val firstName: String,
         @SerializedName("LastName") val lastName: String,
         @SerializedName("Address1") val address: String,
@@ -13,5 +13,15 @@ data class Member(
         @SerializedName("WorkPhone") val workPhone: String,
         @SerializedName("CellPhone") val cellPhone: String,
         @SerializedName("HomeEmail") val homeEmail: String,
-        @SerializedName("id") val memberId: String
-)
+        @SerializedName("id") val memberId: String,
+        @SerializedName("LocalNum") val localNum: Int,
+        @SerializedName("PushNotifications") val isPushNotificationsEnabled: Boolean,
+        @SerializedName("EmailAlerts") val isEmailAlertsEnabled: Boolean
+) {
+    val displayedPhone: String
+        get() = when {
+            workPhone.isNotBlank() -> workPhone
+            cellPhone.isNotBlank() -> cellPhone
+            else -> homePhone
+        }
+}

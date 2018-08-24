@@ -1,22 +1,18 @@
 package io.grandlabs.ift.advocate
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.NavigationController
-import io.grandlabs.ift.NavigationState
+import io.grandlabs.ift.*
 
-import io.grandlabs.ift.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_advocate.view.*
 import javax.inject.Inject
 
-class AdvocacyFragment : Fragment() {
+class AdvocacyFragment : IftFragment() {
 
     @Inject lateinit var advocacyProvider: AdvocacyProvider
     @Inject lateinit var advocacyListAdapter: AdvocacyListAdapter
@@ -33,6 +29,8 @@ class AdvocacyFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_advocate, container, false)
 
+        listener?.setCurrentlySelectedFragment(this)
+
         view.advocacyListView.adapter = advocacyListAdapter
         view.advocacyListView.setOnItemClickListener { _, _, position, _ ->
             val item = advocacyListAdapter.getItem(position)
@@ -47,6 +45,8 @@ class AdvocacyFragment : Fragment() {
 
         return view
     }
+
+    override fun getActionBarTitle(): String = "Advocacy Center"
 
     private fun refresh() {
         advocacyProvider

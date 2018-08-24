@@ -2,7 +2,6 @@ package io.grandlabs.ift
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
 
-abstract class DetailFragment : Fragment() {
+abstract class DetailFragment : IftFragment() {
 
+    abstract override fun getActionBarTitle(): String
     abstract fun getTitle(): String?
     abstract fun getRedirectUrl(): String?
     abstract fun getBodyHtml(): String?
@@ -19,6 +19,8 @@ abstract class DetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web_item, container, false)
+
+        listener?.setCurrentlySelectedFragment(this)
 
         view.titleText.text = getTitle()
         fetchImage().observeOn(AndroidSchedulers.mainThread()).subscribe({

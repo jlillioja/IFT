@@ -10,8 +10,8 @@ import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
+import io.grandlabs.ift.network.ApiServiceCreator
 import io.grandlabs.ift.network.IftClient
-import io.grandlabs.ift.network.RxServiceCreator
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsListFragment
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Module
 class AndroidModule(private val application: IftApp) {
     @Provides
-    fun provideIftClient(): IftClient = RxServiceCreator.createService(IftClient::class.java)
+    fun provideIftClient(): IftClient = ApiServiceCreator.createService(IftClient::class.java)
 
     @Provides
     fun provideContext(): Context = application

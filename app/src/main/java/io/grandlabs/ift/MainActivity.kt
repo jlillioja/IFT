@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListener {
 
     @Inject
     lateinit var newsListFragment: NewsListFragment
@@ -91,6 +91,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun setCurrentlySelectedFragment(fragment: IftFragment) {
+//        supportActionBar!!.title = title
+        title = fragment.getActionBarTitle()
+        val menuItem = navigation.menu.findItem(getNavigationIdForFragment(fragment))
+        menuItem?.isChecked = true
+        // TODO: unselect for null?
+    }
+
+    private fun getNavigationIdForFragment(fragment: IftFragment): Int {
+        // TODO: switch on navigation state
+        return when (fragment) {
+            is NewsListFragment -> R.id.navigation_news
+            is NewsDetailFragment -> R.id.navigation_news
+            is CalendarFragment -> R.id.navigation_calendar
+            is CalendarFragment.CalendarListFragment -> R.id.navigation_calendar
+            is AdvocacyFragment -> R.id.navigation_advocate
+            is AdvocacyDetailFragment -> R.id.navigation_advocate
+            is ContactFragment -> R.id.navigation_contact
+            is InviteFragment -> R.id.navigation_invite
+            else -> 0
+        }
+    }
+
     override fun onPause() {
         super.onPause()
 
@@ -110,55 +133,57 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToNews() {
-        title = "News"
+//        title = "News"
         replaceContentWith(newsListFragment)
     }
 
     private fun navigateToNewsDetail(item: NewsItem) {
-        title = "News"
+//        title = "News"
         replaceContentWith(newsDetailFragment)
     }
 
     private fun navigateToCalendar() {
-        title = "Calendar"
+//        title = "Calendar"
         replaceContentWith(calendarFragment)
     }
 
     private fun navigateToCalendarDetail(item: CalendarItem) {
-        title = item.title
+//        title = item.title
         replaceContentWith(calendarDetailFragment)
     }
 
     private fun navigateToAdvocacyCenter() {
-        title = "Advocacy Center"
+//        title = "Advocacy Center"
         replaceContentWith(advocacyFragment)
     }
 
     private fun navigateToAdvocacyDetail() {
-        title = "Advocacy Center"
+//        title = "Advocacy Center"
         replaceContentWith(advocacyDetailFragment)
     }
 
     private fun navigateToContact() {
-        title = "Contact"
+//        title = "Contact"
         replaceContentWith(contactFragment)
     }
 
     private fun navigateToInvite() {
-        title = "Invite Friends"
+//        title = "Invite Friends"
         replaceContentWith(inviteFragment)
     }
 
     private fun navigateToSettings() {
-        title = "Settings"
+//        title = "Settings"
         replaceContentWith(settingsFragment)
     }
 
     private fun replaceContentWith(fragment: Fragment) {
-        supportFragmentManager
-                .beginTransaction()
-                .replace(contentView.id, fragment)
-                .addToBackStack(null)
-                .commitAllowingStateLoss()
+        if (!fragment.isAdded) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(contentView.id, fragment)
+                    .addToBackStack(null)
+                    .commitAllowingStateLoss()
+        }
     }
 }

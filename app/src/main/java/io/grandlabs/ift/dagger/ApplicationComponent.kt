@@ -12,6 +12,7 @@ import io.grandlabs.ift.login.SignInActivity
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsListFragment
+import io.grandlabs.ift.settings.SettingsFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -29,4 +30,5 @@ interface ApplicationComponent {
     fun inject(advocacyFragment: AdvocacyFragment)
     fun inject(advocacyDetailFragment: AdvocacyDetailFragment)
     fun inject(contactFragment: ContactFragment)
+    fun inject(settingsFragment: SettingsFragment)
 }

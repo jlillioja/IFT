@@ -21,6 +21,8 @@ class NewsDetailFragment : DetailFragment() {
         navigationController.navigation.subscribe { if (it is NavigationState.NewsDetail) this.item = it.item }
     }
 
+    override fun getActionBarTitle(): String = "News"
+
     override fun getTitle(): String? = item?.title
 
     override fun getRedirectUrl(): String? = item?.redirectUrl
