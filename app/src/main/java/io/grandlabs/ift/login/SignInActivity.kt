@@ -2,6 +2,7 @@ package io.grandlabs.ift.login
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -27,6 +28,11 @@ class SignInActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
+        forgotPassword.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ift-aft.org/account/reset-password"))
+            startActivity(browserIntent)
+        }
 
         IftApp.graph.inject(this)
     }

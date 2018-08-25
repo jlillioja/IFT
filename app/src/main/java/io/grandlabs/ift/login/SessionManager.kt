@@ -29,6 +29,7 @@ class SessionManager
 
     private val usernameKey = "username"
     private val passwordKey = "password"
+    private val authTokenKey = "authToken"
 
     private val scope = productionScope // TODO: change back
 
@@ -61,13 +62,14 @@ class SessionManager
             if (it.isSuccessful && it.body()?.token != null) {
                 Log.d(LOG_TAG, "Success!")
                 Log.d(LOG_TAG, "token: ${it.body()?.token}")
+
                 it.body()?.token?.let {
                     token = it
                     context.defaultSharedPreferences
                             .edit()
                             .putString(usernameKey, username)
                             .putString(passwordKey, password)
-                            .putString("authToken", it)
+                            .putString(authTokenKey, it)
                             .apply()
                     decodeToken(it)
                 }
@@ -77,6 +79,14 @@ class SessionManager
         }, {})
 
         return result.map { if (it.isSuccessful) LoginResult.Success else LoginResult.Failure }
+    }
+
+    fun logout() {
+        context.defaultSharedPreferences.edit()
+                .remove(usernameKey)
+                .remove(passwordKey)
+                .remove("authToken")
+                .apply()
     }
 
     private fun decodeToken(token: String) {

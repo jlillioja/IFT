@@ -11,6 +11,7 @@ import android.widget.SimpleExpandableListAdapter
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.IftFragment
 import io.grandlabs.ift.R
+import io.grandlabs.ift.login.SessionManager
 import io.grandlabs.ift.settings.PreferenceCategory.AdvocacyPreferences
 import io.grandlabs.ift.settings.PreferenceCategory.NewsPreferences
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,6 +30,8 @@ class SettingsFragment : IftFragment() {
     @Inject
     lateinit var accountInformationProvider: AccountInformationProvider
 
+    @Inject lateinit var sessionManager: SessionManager
+
     init {
         IftApp.graph.inject(this)
     }
@@ -40,6 +43,11 @@ class SettingsFragment : IftFragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         listener?.setCurrentlySelectedFragment(this)
+
+        view?.logoutButton?.setOnClickListener {
+            sessionManager.logout()
+            activity?.finish()
+        }
 
         accountInformationProvider.getMember()
                 .observeOn(AndroidSchedulers.mainThread())
