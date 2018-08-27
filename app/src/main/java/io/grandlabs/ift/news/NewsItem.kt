@@ -21,8 +21,7 @@ data class NewsItem(
         get() = "News"
     override val favoriteUrl: String
         get() = "member_favoritenews"
-    override val isFavorite: Boolean
-        get() = false
+    override var isFavorite: Boolean = false
 
     override fun associatedImage(context: Context) = fetchImageFromUrl(thumbnailImage)
 }

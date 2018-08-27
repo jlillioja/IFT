@@ -107,4 +107,18 @@ interface IftClient {
     fun register(
             @Body params: RegistrationRequest
     ): Observable<Response<RegistrationResult>>
+
+    @DELETE("{favoriteUrl}/{contentId}")
+    fun deleteFavorite(
+            @Header("Authorization") token: String,
+            @Path("favoriteUrl") favoriteUrl: String,
+            @Path("contentId") contentId: String
+    ): Observable<Response<Void>>
+
+    @POST("{favoriteUrl}/{contentId}")
+    fun postFavorite(
+            @Header("Authorization") token: String,
+            @Path("favoriteUrl") favoriteUrl: String,
+            @Path("contentId") contentId: String
+    ): Observable<Response<Void>>
 }

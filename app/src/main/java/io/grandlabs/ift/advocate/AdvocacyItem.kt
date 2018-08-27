@@ -32,8 +32,7 @@ data class AdvocacyItem(
         get() = "member_favoriteadvocacy"
     override val redirectUrl: String?
         get() = null
-    override val isFavorite: Boolean
-        get() = false
+    override var isFavorite: Boolean = false
     val type get() = when(typeInt) {
         1 -> Call
         2 -> Email

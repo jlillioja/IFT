@@ -10,11 +10,11 @@ abstract class WebItem {
     abstract val actionBarTitle: String
     abstract val content: String
     abstract val summary: String
-    abstract val favoriteUrl: String
     abstract val contentUrl: String?
     abstract val redirectUrl: String?
-    abstract val isFavorite: Boolean
     abstract val contentId: String
+    abstract val favoriteUrl: String
+    abstract var isFavorite: Boolean
 
     abstract fun associatedImage(context: Context): Observable<Drawable>?
 }

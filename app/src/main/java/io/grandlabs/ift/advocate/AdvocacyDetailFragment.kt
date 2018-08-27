@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.grandlabs.ift.*
+import io.grandlabs.ift.favorites.FavoritesManager
 import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
@@ -15,7 +16,11 @@ class AdvocacyDetailFragment: DetailFragment() {
     @Inject
     lateinit var navigationController: NavigationController
 
-    @Inject lateinit var mLinkHelper: LinkHelper
+    @Inject
+    override lateinit var linkHelper: LinkHelper
+
+    @Inject
+    override lateinit var favoritesManager: FavoritesManager
 
     lateinit var item: AdvocacyItem
 
@@ -28,7 +33,7 @@ class AdvocacyDetailFragment: DetailFragment() {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         view?.takeActionSection?.visibility = View.VISIBLE
-        view?.takeActionButton?.setOnClickListener { item.takeAction(mLinkHelper) }
+        view?.takeActionButton?.setOnClickListener { item.takeAction(linkHelper) }
 
         return view
     }
@@ -36,8 +41,6 @@ class AdvocacyDetailFragment: DetailFragment() {
     override fun getItem(): WebItem {
         return item
     }
-
-    override fun getLinkHelper() = mLinkHelper
 
     override fun getActionBarTitle(): String = "Advocacy Center"
 

@@ -52,8 +52,7 @@ data class CalendarItem(
         get() = url
     override val redirectUrl: String?
         get() = null
-    override val isFavorite: Boolean
-        get() = false
+    override var isFavorite: Boolean = false
     val dateFormat: DateFormat
         get() = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
 
