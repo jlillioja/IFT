@@ -17,6 +17,7 @@ import io.grandlabs.ift.settings.PreferenceCategory.NewsPreferences
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.preference_list_child_item.view.*
 import openDialerForNumber
@@ -98,6 +99,18 @@ class SettingsFragment : IftFragment() {
                         onError = {
                             Log.d(LOG_TAG, it.localizedMessage)
                         },
+                        onComplete = {}
+                )
+
+        accountInformationProvider.getLocalOfficers()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = {
+                            localChapterPresident.text = it.president?.fullName ?: ""
+                            localChapterVicePresident.text = it.vicePresident?.fullName ?: ""
+                            localChapterFieldServiceDirector.text = it.fieldServiceDirector?.fullName ?: ""
+                        },
+                        onError = {},
                         onComplete = {}
                 )
 

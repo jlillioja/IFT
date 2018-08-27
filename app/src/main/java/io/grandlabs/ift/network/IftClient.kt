@@ -9,9 +9,7 @@ import io.grandlabs.ift.login.RegistrationRequest
 import io.grandlabs.ift.login.RegistrationResult
 import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.NewsResult
-import io.grandlabs.ift.settings.IftMember
-import io.grandlabs.ift.settings.LocalOffice
-import io.grandlabs.ift.settings.Preference
+import io.grandlabs.ift.settings.*
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*
@@ -69,6 +67,24 @@ interface IftClient {
             @Path("localNum") localNum: Int,
             @Header("Authorization") token: String
     ): Observable<Response<List<LocalOffice>>>
+
+    @GET("local/{localNum}/president")
+    fun localPresident(
+            @Path("localNum") localNum: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<List<President>>>
+
+    @GET("local/{localNum}/vicepresident")
+    fun localVicePresident(
+            @Path("localNum") localNum: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<List<VicePresident>>>
+
+    @GET("local/{localNum}/fieldservicedirector")
+    fun localFieldServiceDirector(
+            @Path("localNum") localNum: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<FieldServiceDirector>>
 
     @GET("member_categorynews")
     fun newsPreferences(
