@@ -3,7 +3,10 @@ package io.grandlabs.ift.network
 import io.grandlabs.ift.advocate.AdvocacyItem
 import io.grandlabs.ift.calendar.CalendarResult
 import io.grandlabs.ift.contact.OfficeResult
+import io.grandlabs.ift.login.CheckRegistrationResult
 import io.grandlabs.ift.login.LoginSuccessResult
+import io.grandlabs.ift.login.RegistrationRequest
+import io.grandlabs.ift.login.RegistrationResult
 import io.grandlabs.ift.news.NewsItem
 import io.grandlabs.ift.news.NewsResult
 import io.grandlabs.ift.settings.IftMember
@@ -76,4 +79,16 @@ interface IftClient {
     fun advocacyPreferences(
             @Header("Authorization") token: String
     ): Observable<Response<List<Preference>>>
+
+    @GET("register")
+    fun checkRegistration(
+            @Query("HomeEmail") email: String,
+            @Query("FirstName") firstName: String?,
+            @Query("LastName") lastName: String?
+    ): Observable<Response<CheckRegistrationResult>>
+
+    @POST("register")
+    fun register(
+            @Body params: RegistrationRequest
+    ): Observable<Response<RegistrationResult>>
 }

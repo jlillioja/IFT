@@ -37,4 +37,14 @@
     <string name="search">SEARCH</string>
     <string name="facebook_app_id">164249154176639</string>
     <string name="no_results">No Results</string>
+    <string name="create_an_account">CREATE AN ACCOUNT</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="home_email_address">Home Email Address</string>
+    <string name="next">NEXT</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in_underlined"><u>LOG IN</u></string>
+    <string name="create_account_non_member">CREATE ACCOUNT - NON-MEMBER</string>
+    <string name="go_back_underlined"><u>GO BACK</u></string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

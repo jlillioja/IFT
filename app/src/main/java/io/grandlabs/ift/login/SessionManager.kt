@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Base64
 import android.util.Log
 import com.google.gson.GsonBuilder
+import io.grandlabs.ift.BuildConfig
 import io.grandlabs.ift.defaultSharedPreferences
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.network.TokenData
@@ -31,7 +32,7 @@ class SessionManager
     private val passwordKey = "password"
     private val authTokenKey = "authToken"
 
-    private val scope = productionScope // TODO: change back
+    private val scope = if (BuildConfig.DEBUG) devScope else productionScope
 
     private val defaultLoginParams = mapOf(
             "client_id" to clientId,
@@ -82,6 +83,8 @@ class SessionManager
     }
 
     fun logout() {
+        token = null
+        tokenData = null
         context.defaultSharedPreferences.edit()
                 .remove(usernameKey)
                 .remove(passwordKey)
@@ -90,42 +93,6 @@ class SessionManager
     }
 
     private fun decodeToken(token: String) {
-        /*
-        - (NSDictionary *) dataDictFromJWTToken {
-
-    NSString *jwt = [self getToken];
-    if (jwt == nil) return nil;
-
-    NSArray *segments = [jwt componentsSeparatedByString:@"."];
-    NSString *base64String = [segments objectAtIndex: 1];
-    NSLog(@"%@", base64String);
-    // => "eyJmb28iOiJiYXIifQ"
-
-
-    int requiredLength = (int)(4 * ceil((float)[base64String length] / 4.0));
-    NSUInteger nbrPaddings = requiredLength - [base64String length];
-
-
-    // Pad with leading =
-    if (nbrPaddings > 0) {
-        NSString *padding = [[NSString string] stringByPaddingToLength:nbrPaddings withString:@"=" startingAtIndex:0];
-        base64String = [base64String stringByAppendingString:padding];
-    }
-
-    base64String = [base64String stringByReplacingOccurrencesOfString:@"-" withString:@"+"];
-    base64String = [base64String stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
-
-    // Decode Base64
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
-    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", decodedString);
-
-    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:[decodedString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    return jsonDictionary;
-
-}
-         */
-
         val segments = token.split('.')
         var encodedInfo = segments[1]
 
@@ -144,4 +111,31 @@ class SessionManager
         val json = JSONObject(recodedInfo)
         tokenData = GsonBuilder().create().fromJson(recodedInfo, TokenData::class.java)
     }
+
+    fun checkRegistration(
+            email: String,
+            firstName: String,
+            lastName: String
+    ): Observable<RegistrationStatus> {
+        return iftClient.checkRegistration(
+                email,
+                if (firstName.isNotBlank()) firstName else null,
+                if (lastName.isNotBlank()) lastName else null
+        ).map {
+            if (it.code() == 404) {
+                RegistrationStatus.NonMember
+            } else {
+                RegistrationStatus.AlreadyRegistered
+            }
+        }.onErrorReturnItem(RegistrationStatus.NonMember)
+    }
+
+    fun submitRegistration(
+            email: String,
+            password: String
+    ): Observable<RegistrationResult> {
+        return iftClient.register(RegistrationRequest(email, password))
+                .map { it.body() }
+    }
+
 }
