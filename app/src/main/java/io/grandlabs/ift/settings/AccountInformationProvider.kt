@@ -14,6 +14,7 @@ class AccountInformationProvider @Inject constructor(
         return iftClient.member(
                 sessionManager.memberId,
                 sessionManager.authorizationHeader)
+                .share()
                 .map { it.body() }
     }
 

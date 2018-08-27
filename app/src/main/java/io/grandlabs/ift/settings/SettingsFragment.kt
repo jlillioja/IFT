@@ -30,7 +30,8 @@ class SettingsFragment : IftFragment() {
     @Inject
     lateinit var accountInformationProvider: AccountInformationProvider
 
-    @Inject lateinit var sessionManager: SessionManager
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     init {
         IftApp.graph.inject(this)
@@ -53,10 +54,17 @@ class SettingsFragment : IftFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
-                            view.name.text = "${it.firstName} ${it.lastName}"
-                            view.userAddressLine1.text = it.address
-                            view.userAddressLine2.text = "${it.city} ${it.state} ${it.zip}"
-                            view.phone.text = it.displayedPhone
+                            if (!sessionManager.isUserAMember()) {
+                                view.name.text = "Non Member"
+                                view.userAddressLine1.visibility = View.GONE
+                                view.userAddressLine2.visibility = View.GONE
+                                view.phone.visibility = View.GONE
+                            } else {
+                                view.name.text = "${it.firstName} ${it.lastName}"
+                                view.userAddressLine1.text = it.address
+                                view.userAddressLine2.text = "${it.city} ${it.state} ${it.zip}"
+                                view.phone.text = it.displayedPhone
+                            }
                             view.email.text = it.homeEmail
                             view.memberId.text = it.memberId
 

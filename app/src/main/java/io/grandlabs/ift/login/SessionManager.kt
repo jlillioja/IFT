@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Base64
 import android.util.Log
 import com.google.gson.GsonBuilder
-import io.grandlabs.ift.BuildConfig
 import io.grandlabs.ift.defaultSharedPreferences
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.network.TokenData
@@ -32,7 +31,8 @@ class SessionManager
     private val passwordKey = "password"
     private val authTokenKey = "authToken"
 
-    private val scope = if (BuildConfig.DEBUG) devScope else productionScope
+//    private val scope = if (BuildConfig.DEBUG) devScope else productionScope
+    private val scope = productionScope // TODO: change back again
 
     private val defaultLoginParams = mapOf(
             "client_id" to clientId,
@@ -44,6 +44,7 @@ class SessionManager
     var token: String? = null
     var tokenData: TokenData? = null
     val memberId: Int get() = tokenData?.id?.toInt() ?: 0
+    fun isUserAMember(): Boolean = !(tokenData?.localNum?.equals("9911") ?: true)
     val authorizationHeader: String get() = "Bearer $token"
 
     fun silentLogin(): Observable<LoginResult>? {
