@@ -30,6 +30,7 @@ abstract class DetailFragment : IftFragment() {
 
         listener?.setCurrentlySelectedFragment(this)
 
+        view.favoriteStar.setTint(getItem().isFavorite)
         view.favoriteStar.setOnClickListener {
             toggleItemIsFavorite()
         }

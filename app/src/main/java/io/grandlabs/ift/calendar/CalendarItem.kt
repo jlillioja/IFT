@@ -47,7 +47,7 @@ data class CalendarItem(
     override val actionBarTitle: String
         get() = "Calendar"
     override val favoriteUrl: String
-        get() = "member_favoritecalendarevent"
+        get() = CalendarProvider.favoritesUrl
     override val contentUrl: String
         get() = url
     override val redirectUrl: String?

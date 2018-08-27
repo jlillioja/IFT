@@ -12,10 +12,6 @@ class FavoritesManager
         private val sessionManager: SessionManager
 ) {
 
-    private val newsUrl = "member_favoritenews"
-    private val calendarUrl = "member_favoritecalendarevent"
-    private val advocacyUrl = "member_favoriteadvocacy"
-
     fun setFavorite(item: WebItem, isFavorite: Boolean): Observable<Boolean> {
         return if (isFavorite) {
             iftClient.postFavorite(sessionManager.authorizationHeader, item.favoriteUrl, item.contentId)

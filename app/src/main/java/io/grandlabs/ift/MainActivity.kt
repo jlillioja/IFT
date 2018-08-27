@@ -74,6 +74,10 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
                 replaceContentWith(searchFragment)
                 true
             }
+            R.id.favorite -> {
+//                replaceContentWith(favoritesFragment)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

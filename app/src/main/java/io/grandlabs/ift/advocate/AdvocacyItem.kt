@@ -29,7 +29,7 @@ data class AdvocacyItem(
     override val actionBarTitle: String
         get() = "Advocacy Center"
     override val favoriteUrl: String
-        get() = "member_favoriteadvocacy"
+        get() = AdvocacyProvider.favoritesUrl
     override val redirectUrl: String?
         get() = null
     override var isFavorite: Boolean = false

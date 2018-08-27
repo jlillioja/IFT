@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.grandlabs.ift.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_calendar_list.view.*
 import javax.inject.Inject
 
@@ -86,6 +88,8 @@ class CalendarFragment : IftFragment() {
 
         private fun refresh() {
             calendarProvider.getCalendar()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .map { it.filter(itemFilter) }
                     .subscribe({
                         view?.loadingSpinner?.visibility = View.GONE

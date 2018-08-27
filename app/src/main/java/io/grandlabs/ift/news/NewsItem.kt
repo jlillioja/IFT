@@ -20,7 +20,7 @@ data class NewsItem(
     override val actionBarTitle: String
         get() = "News"
     override val favoriteUrl: String
-        get() = "member_favoritenews"
+        get() = NewsProvider.favoritesUrl
     override var isFavorite: Boolean = false
 
     override fun associatedImage(context: Context) = fetchImageFromUrl(thumbnailImage)

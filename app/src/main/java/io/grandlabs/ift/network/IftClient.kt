@@ -1,6 +1,9 @@
 package io.grandlabs.ift.network
 
 import io.grandlabs.ift.advocate.AdvocacyItem
+import io.grandlabs.ift.advocate.AdvocacyProvider
+import io.grandlabs.ift.calendar.CalendarItem
+import io.grandlabs.ift.calendar.CalendarProvider
 import io.grandlabs.ift.calendar.CalendarResult
 import io.grandlabs.ift.contact.OfficeResult
 import io.grandlabs.ift.login.CheckRegistrationResult
@@ -8,6 +11,7 @@ import io.grandlabs.ift.login.LoginSuccessResult
 import io.grandlabs.ift.login.RegistrationRequest
 import io.grandlabs.ift.login.RegistrationResult
 import io.grandlabs.ift.news.NewsItem
+import io.grandlabs.ift.news.NewsProvider
 import io.grandlabs.ift.news.NewsResult
 import io.grandlabs.ift.settings.*
 import io.reactivex.Observable
@@ -107,6 +111,21 @@ interface IftClient {
     fun register(
             @Body params: RegistrationRequest
     ): Observable<Response<RegistrationResult>>
+
+    @GET(NewsProvider.favoritesUrl)
+    fun favoriteNews(
+            @Header("Authorization") token: String
+    ): Observable<Response<List<NewsItem>>>
+
+    @GET(CalendarProvider.favoritesUrl)
+    fun favoritesCalendarEvents(
+            @Header("Authorization") token: String
+    ): Observable<Response<List<CalendarItem>>>
+
+    @GET(AdvocacyProvider.favoritesUrl)
+    fun favoritesAdvocacy(
+            @Header("Authorization") token: String
+    ): Observable<Response<List<AdvocacyItem>>>
 
     @DELETE("{favoriteUrl}/{contentId}")
     fun deleteFavorite(
