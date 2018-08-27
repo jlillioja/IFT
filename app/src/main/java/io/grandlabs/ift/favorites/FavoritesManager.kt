@@ -4,6 +4,7 @@ import io.grandlabs.ift.WebItem
 import io.grandlabs.ift.login.SessionManager
 import io.grandlabs.ift.network.IftClient
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 
 class FavoritesManager
@@ -23,5 +24,21 @@ class FavoritesManager
                     else item.isFavorite
                 }
                 .onErrorReturnItem(item.isFavorite)
+    }
+
+    fun getAllFavorites(): Observable<List<WebItem>> {
+        return Observables.combineLatest(
+                iftClient
+                        .favoriteNews(sessionManager.authorizationHeader)
+                        .map { it.body() },
+                iftClient.favoritesAdvocacy(sessionManager.authorizationHeader)
+                        .map { it.body() },
+                iftClient.favoritesCalendarEvents(sessionManager.authorizationHeader)
+                        .map { it.body() }
+        ) { favoriteNews, favoriteAdvocacy, favoriteCalendarEvents ->
+            (favoriteNews ?: emptyList())
+                    .plus(favoriteAdvocacy ?: emptyList())
+                    .plus(favoriteCalendarEvents ?: emptyList())
+        }
     }
 }

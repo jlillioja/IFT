@@ -7,6 +7,7 @@ import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
+import io.grandlabs.ift.favorites.FavoritesFragment
 import io.grandlabs.ift.invite.InviteFragment
 import io.grandlabs.ift.login.SignInActivity
 import io.grandlabs.ift.news.CalendarDetailFragment
@@ -33,4 +34,5 @@ interface ApplicationComponent {
     fun inject(contactFragment: ContactFragment)
     fun inject(settingsFragment: SettingsFragment)
     fun inject(searchFragment: SearchFragment)
+    fun inject(favoritesFragment: FavoritesFragment)
 }

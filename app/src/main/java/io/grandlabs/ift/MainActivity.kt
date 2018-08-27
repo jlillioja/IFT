@@ -11,6 +11,7 @@ import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.calendar.CalendarItem
 import io.grandlabs.ift.contact.ContactFragment
+import io.grandlabs.ift.favorites.FavoritesFragment
 import io.grandlabs.ift.invite.InviteFragment
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     lateinit var settingsFragment: SettingsFragment
     @Inject
     lateinit var searchFragment: SearchFragment
+    @Inject
+    lateinit var favoritesFragment: FavoritesFragment
 
     @Inject
     lateinit var navigationController: NavigationController
@@ -75,7 +78,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
                 true
             }
             R.id.favorite -> {
-//                replaceContentWith(favoritesFragment)
+                replaceContentWith(favoritesFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
