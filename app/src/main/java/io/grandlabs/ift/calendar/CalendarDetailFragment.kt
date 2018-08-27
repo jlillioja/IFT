@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import io.grandlabs.ift.*
 import io.grandlabs.ift.calendar.CalendarItem
-import io.grandlabs.ift.sharing.SharingHelper
+import io.grandlabs.ift.sharing.LinkHelper
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +19,7 @@ class CalendarDetailFragment : IftFragment() {
     lateinit var navigationController: NavigationController
 
     @Inject
-    lateinit var sharingHelper: SharingHelper
+    lateinit var linkHelper: LinkHelper
 
     var item: CalendarItem? = null
 
@@ -56,19 +56,19 @@ class CalendarDetailFragment : IftFragment() {
         contentWebView.loadData(css + content, "text/html; charset=UTF-8", null)
 
         view?.shareByFacebook?.setOnClickListener {
-            sharingHelper.shareLinkByFacebook(item?.contentUrl, this)
+            linkHelper.shareLinkByFacebook(item?.contentUrl, this)
         }
 
         view?.shareByTwitter?.setOnClickListener {
-            sharingHelper.shareLinkByTwitter("${item?.title}\n", item?.contentUrl)
+            linkHelper.shareLinkByTwitter("${item?.title}\n", item?.contentUrl)
         }
 
         view?.shareByEmail?.setOnClickListener {
-            sharingHelper.shareLinkByEmail(item?.title ?: "", item?.contentUrl)
+            linkHelper.shareLinkByEmail(item?.title ?: "", item?.contentUrl)
         }
 
         view?.shareBySms?.setOnClickListener {
-            sharingHelper.shareLinkBySms(item?.title ?: "", item?.contentUrl)
+            linkHelper.shareLinkBySms(item?.title ?: "", item?.contentUrl)
         }
 
         return view

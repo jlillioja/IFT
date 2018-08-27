@@ -47,4 +47,5 @@
     <string name="create_account_non_member">CREATE ACCOUNT - NON-MEMBER</string>
     <string name="go_back_underlined"><u>GO BACK</u></string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="take_action">TAKE ACTION!</string>
 </resources>

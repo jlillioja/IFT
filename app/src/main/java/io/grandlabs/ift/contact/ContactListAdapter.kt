@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import io.grandlabs.ift.R
 import io.grandlabs.ift.layoutInflater
+import io.grandlabs.ift.sharing.LinkHelper
 import kotlinx.android.synthetic.main.contact_list_item.view.*
-import openDialerForNumber
-import openMapsAtAddress
 import javax.inject.Inject
 
 
 class ContactListAdapter
-@Inject constructor(context: Context): ArrayAdapter<OfficeItem>(context, R.layout.contact_list_item) {
+@Inject constructor(
+        context: Context,
+        private val linkHelper: LinkHelper
+) : ArrayAdapter<OfficeItem>(context, R.layout.contact_list_item) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView
                 ?: context.layoutInflater.inflate(R.layout.contact_list_item, parent, false)
@@ -25,10 +27,10 @@ class ContactListAdapter
         view.addressLine1.text = item.address
         view.addressLine2.text = "${item.city}, ${item.state} {${item.zip}"
         view.phoneNumber.text = PhoneNumberUtils.formatNumber(item.phone)
-        view.phoneNumber.setOnClickListener { openDialerForNumber(item.phone, context) }
+        view.phoneNumber.setOnClickListener { linkHelper.openDialerForNumber(item.phone) }
 
         view.directionsImage.setOnClickListener {
-            openMapsAtAddress("${item.address}, ${item.city} ${item.state} ${item.zip}", context)
+            linkHelper.openMaps("${item.address}, ${item.city} ${item.state} ${item.zip}")
         }
 
         return view

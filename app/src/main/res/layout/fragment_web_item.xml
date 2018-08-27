@@ -41,6 +41,46 @@
         android:layout_margin="13dp"
         android:layout_weight="1" />
 
+    <LinearLayout
+        android:id="@+id/takeActionSection"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_neutral_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/takeActionButton"
+                android:layout_width="223dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:background="@color/ift_teal"
+                android:text="@string/take_action"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -49,7 +89,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:gravity="right|center_vertical">
+        android:gravity="right|center_vertical"
+        android:layout_marginRight="6dp">
 
         <ImageView
             android:id="@+id/shareByFacebook"

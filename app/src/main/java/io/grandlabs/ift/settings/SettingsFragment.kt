@@ -14,14 +14,14 @@ import io.grandlabs.ift.R
 import io.grandlabs.ift.login.SessionManager
 import io.grandlabs.ift.settings.PreferenceCategory.AdvocacyPreferences
 import io.grandlabs.ift.settings.PreferenceCategory.NewsPreferences
+import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.preference_list_child_item.view.*
-import openDialerForNumber
-import openMapsAtAddress
+
 import javax.inject.Inject
 
 class SettingsFragment : IftFragment() {
@@ -33,6 +33,8 @@ class SettingsFragment : IftFragment() {
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject lateinit var linkHelper: LinkHelper
 
     init {
         IftApp.graph.inject(this)
@@ -88,10 +90,10 @@ class SettingsFragment : IftFragment() {
                             view.localChapterAddress2.text = "${it.city} ${it.state} ${it.zip}"
                             view.localChapterPhoneNumber.text = PhoneNumberUtils.formatNumber(it.phone)
                             view.localChapterPhoneNumber.setOnClickListener { _ ->
-                                openDialerForNumber(it.phone, context!!)
+                                linkHelper.openDialerForNumber(it.phone)
                             }
                             view.localChapterDirections.setOnClickListener { _ ->
-                                openMapsAtAddress("${it.address}, ${it.city} ${it.state} ${it.zip}", context!!)
+                                linkHelper.openMaps("${it.address}, ${it.city} ${it.state} ${it.zip}")
                             }
 
                             view.localChapterInformation.visibility = View.VISIBLE

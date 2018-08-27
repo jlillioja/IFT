@@ -3,7 +3,7 @@ package io.grandlabs.ift.news
 import android.graphics.drawable.Drawable
 import fetchImageFromUrl
 import io.grandlabs.ift.*
-import io.grandlabs.ift.sharing.SharingHelper
+import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class NewsDetailFragment : DetailFragment() {
     @Inject
     lateinit var navigationController: NavigationController
 
-    @Inject lateinit var mSharingHelper: SharingHelper
+    @Inject lateinit var mLinkHelper: LinkHelper
 
     lateinit var item: NewsItem
 
@@ -23,7 +23,7 @@ class NewsDetailFragment : DetailFragment() {
 
     override fun getItem(): WebItem = item
 
-    override fun getSharingHelper() = mSharingHelper
+    override fun getLinkHelper() = mLinkHelper
 
 
     override fun getActionBarTitle(): String = "News"

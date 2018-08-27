@@ -1,16 +1,21 @@
 package io.grandlabs.ift.advocate
 
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import io.grandlabs.ift.*
-import io.grandlabs.ift.sharing.SharingHelper
+import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_web_item.view.*
 import javax.inject.Inject
 
 class AdvocacyDetailFragment: DetailFragment() {
     @Inject
     lateinit var navigationController: NavigationController
 
-    @Inject lateinit var mSharingHelper: SharingHelper
+    @Inject lateinit var mLinkHelper: LinkHelper
 
     lateinit var item: AdvocacyItem
 
@@ -19,11 +24,20 @@ class AdvocacyDetailFragment: DetailFragment() {
         navigationController.navigation.subscribe { if (it is NavigationState.AdvocacyDetail) this.item = it.item }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        view?.takeActionSection?.visibility = View.VISIBLE
+        view?.takeActionButton?.setOnClickListener { item.takeAction(mLinkHelper) }
+
+        return view
+    }
+
     override fun getItem(): WebItem {
         return item
     }
 
-    override fun getSharingHelper() = mSharingHelper
+    override fun getLinkHelper() = mLinkHelper
 
     override fun getActionBarTitle(): String = "Advocacy Center"
 

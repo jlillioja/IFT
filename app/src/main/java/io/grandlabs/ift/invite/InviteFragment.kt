@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.IftFragment
 import io.grandlabs.ift.R
-import io.grandlabs.ift.sharing.SharingHelper
+import io.grandlabs.ift.sharing.LinkHelper
 import kotlinx.android.synthetic.main.fragment_invite.view.*
 import javax.inject.Inject
 
 
 class InviteFragment : IftFragment() {
 
-    @Inject lateinit var sharingHelper: SharingHelper
+    @Inject lateinit var linkHelper: LinkHelper
 
     init {
         IftApp.graph.inject(this)
@@ -37,19 +37,19 @@ class InviteFragment : IftFragment() {
     override fun getActionBarTitle(): String = "Invite Friends"
 
     private fun onClickFacebook() {
-        sharingHelper.shareAppLinkByFacebook(this)
+        linkHelper.shareAppLinkByFacebook(this)
     }
 
     private fun onClickTwitter() {
-        sharingHelper.shareAppLinkByTwitter()
+        linkHelper.shareAppLinkByTwitter()
     }
 
     private fun onClickEmail() {
-        sharingHelper.shareAppLinkByEmail()
+        linkHelper.shareAppLinkByEmail()
     }
 
     private fun onClickMessage() {
-        sharingHelper.shareAppBySms()
+        linkHelper.shareAppBySms()
     }
 
 }
