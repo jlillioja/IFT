@@ -18,7 +18,7 @@ class NewsProvider
 
     fun getNews(): Observable<NewsResult> = Observables.combineLatest(
             iftClient
-                    .news(sessionManager.authorizationHeader, 1, 10)
+                    .news(sessionManager.authorizationHeader, 1, 50)
                     .map { it.body() },
             iftClient
                     .favoriteNews(sessionManager.authorizationHeader)

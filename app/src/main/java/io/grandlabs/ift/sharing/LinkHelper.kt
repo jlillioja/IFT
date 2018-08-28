@@ -3,12 +3,14 @@ package io.grandlabs.ift.sharing
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.CalendarContract
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.startActivity
 import android.widget.Toast
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import com.twitter.sdk.android.tweetcomposer.TweetComposer
+import io.grandlabs.ift.calendar.CalendarItem
 import java.net.URL
 import javax.inject.Inject
 
@@ -98,6 +100,16 @@ class LinkHelper
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$address"))
         intent.setPackage("com.google.android.apps.maps")
         intent.openIfPossible("Google Maps not installed.")
+    }
+
+    fun addEventToCalendar(item: CalendarItem) {
+        Intent(Intent.ACTION_EDIT).apply {
+            type = "vnd.android.cursor.item/event"
+            putExtra(CalendarContract.Events.TITLE, item.title)
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, item.dateFrom?.time)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, item.dateTo?.time)
+            putExtra(CalendarContract.Events.DESCRIPTION, item.summary)
+        }.openIfPossible("No calendar app installed.")
     }
 
     private fun Intent.openIfPossible(errorMessage: String) {

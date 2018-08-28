@@ -50,12 +50,12 @@ object ApiServiceCreator {
     private val gson = GsonBuilder().create()
     private val rxAdapter = RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
 
-    private const val apiDevUrl = "https://api.ift-aft.org/app"
-    private const val apiUrl = "https://api-dev.ift-aft.org/app/"
+    private const val apiUrl = "https://api.ift-aft.org/app/"
+    private const val apiDevUrl = "https://api-dev.ift-aft.org/app/"
     val baseUrl = if (BuildConfig.DEBUG) apiDevUrl else apiUrl
 
     private val builder = Retrofit.Builder()
-            .baseUrl(apiUrl)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(rxAdapter)
 

@@ -2,6 +2,7 @@ package io.grandlabs.ift.news
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,12 @@ class CalendarDetailFragment : DetailFragment() {
             view?.subtitleText?.visibility = View.VISIBLE
             view?.subtitleText?.text = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
                     .format(date)
+        }
+
+        view?.addToCalendarButton?.visibility = View.VISIBLE
+        view?.addToCalendarButton?.setColorFilter(ContextCompat.getColor(context!!, R.color.light_neutral_grey))
+        view?.addToCalendarButton?.setOnClickListener {
+            linkHelper.addEventToCalendar(item!!)
         }
 
         return view

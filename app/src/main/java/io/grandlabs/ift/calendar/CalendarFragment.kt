@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import io.grandlabs.ift.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -97,7 +99,16 @@ class CalendarFragment : IftFragment() {
                         calendarAdapter.clear()
                         calendarAdapter.addAll(it)
                         calendarAdapter.notifyDataSetChanged()
-                    }, {}, {})
+                    }, {
+                        view?.loadingSpinner?.visibility = View.GONE
+                        view?.swipeRefresh?.isRefreshing = false
+                        Log.d("CalendarFragment", it.localizedMessage)
+                        Toast.makeText(
+                                context,
+                                "Failed to load calendar events. Please try again later.",
+                                Toast.LENGTH_LONG
+                        ).show()
+                    }, {})
         }
     }
 

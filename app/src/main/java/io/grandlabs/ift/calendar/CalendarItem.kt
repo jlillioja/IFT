@@ -18,8 +18,8 @@ data class CalendarItem(
         @SerializedName("Summary") override val summary: String,
         @SerializedName("ID") override val contentId: String,
         @SerializedName("Description") val description: String,
-        @SerializedName("DateFrom") val dateFromString: String,
-        @SerializedName("DateTo") val dateToString: String,
+        @SerializedName("DateFrom") val dateFromString: String?,
+        @SerializedName("DateTo") val dateToString: String?,
         @SerializedName("CalendarID") val calenderID: Int,
         @SerializedName("Address") val address: String,
         @SerializedName("City") val city: String,
@@ -60,10 +60,10 @@ data class CalendarItem(
         get() = CalendarItemType.fromCode(calenderID)
 
     val dateFrom: Date?
-        get() = dateFormat.parse(dateFromString)
+        get() = if (dateFromString != null) dateFormat.parse(dateFromString) else null
 
     val dateTo: Date?
-        get() = dateFormat.parse(dateToString)
+        get() = if (dateToString != null) dateFormat.parse(dateToString) else null
 
     override fun associatedImage(context: Context): Observable<Drawable>? {
         return null

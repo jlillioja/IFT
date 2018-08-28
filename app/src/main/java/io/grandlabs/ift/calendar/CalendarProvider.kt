@@ -34,10 +34,9 @@ class CalendarProvider
                         .map { it.body()?.items },
                 iftClient
                         .favoritesCalendarEvents(sessionManager.authorizationHeader)
-                        .map { it.body() }
         ) { items, favorites ->
             items?.forEach {
-                it.isFavorite = favorites?.contains(it) ?: false
+                it.isFavorite = favorites.body()?.contains(it) ?: false
             }
             items
         }

@@ -1,8 +1,10 @@
 package io.grandlabs.ift
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -64,6 +66,9 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.action_bar, menu)
+
+        menu?.findItem(R.id.favorite)?.icon?.setColorFilter(ContextCompat.getColor(this, R.color.light_neutral_grey), PorterDuff.Mode.MULTIPLY)
+
         return true
     }
 
