@@ -3,11 +3,15 @@ package io.grandlabs.ift.login
 import android.content.Context
 import android.util.Base64
 import android.util.Log
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.GsonBuilder
+import io.grandlabs.ift.BuildConfig
 import io.grandlabs.ift.defaultSharedPreferences
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.network.TokenData
+import io.grandlabs.ift.network.TokenRequest
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.subscribeBy
 import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +35,7 @@ class SessionManager
     private val passwordKey = "password"
     private val authTokenKey = "authToken"
 
-//    private val scope = if (BuildConfig.DEBUG) devScope else productionScope
+    //    private val scope = if (BuildConfig.DEBUG) devScope else productionScope
     private val scope = productionScope // TODO: change back again
 
     private val defaultLoginParams = mapOf(
@@ -41,11 +45,11 @@ class SessionManager
             "grant_type" to grantType
     )
 
-    var token: String? = null
+    var authToken: String? = null
     var tokenData: TokenData? = null
     val memberId: Int get() = tokenData?.id?.toInt() ?: 0
     fun isUserAMember(): Boolean = !(tokenData?.localNum?.equals("9911") ?: true)
-    val authorizationHeader: String get() = "Bearer $token"
+    val authorizationHeader: String get() = "Bearer $authToken"
 
     fun silentLogin(): Observable<LoginResult>? {
         val username = context.defaultSharedPreferences.getString(usernameKey, null)
@@ -63,10 +67,10 @@ class SessionManager
         result.subscribe({
             if (it.isSuccessful && it.body()?.token != null) {
                 Log.d(LOG_TAG, "Success!")
-                Log.d(LOG_TAG, "token: ${it.body()?.token}")
+                Log.d(LOG_TAG, "authToken: ${it.body()?.token}")
 
                 it.body()?.token?.let {
-                    token = it
+                    authToken = it
                     context.defaultSharedPreferences
                             .edit()
                             .putString(usernameKey, username)
@@ -74,7 +78,10 @@ class SessionManager
                             .putString(authTokenKey, it)
                             .apply()
                     decodeToken(it)
+
                 }
+
+                updateDeviceToken()
             }
         }, {
             Log.d(LOG_TAG, it.localizedMessage)
@@ -84,7 +91,7 @@ class SessionManager
     }
 
     fun logout() {
-        token = null
+        authToken = null
         tokenData = null
         context.defaultSharedPreferences.edit()
                 .remove(usernameKey)
@@ -137,6 +144,37 @@ class SessionManager
     ): Observable<RegistrationResult> {
         return iftClient.register(RegistrationRequest(email, password))
                 .map { it.body() }
+    }
+
+    private val prodtokenType = 3
+    private val devTokenType = 4
+    private val tokenTypeId = if (BuildConfig.DEBUG) devTokenType else prodtokenType
+
+    fun updateDeviceToken(deviceToken: String? = null) {
+        if (deviceToken != null) {
+            iftClient.postToken(
+                    authorizationHeader,
+                    TokenRequest(
+                            tokenTypeId,
+                            deviceToken
+                    )
+            ).subscribeBy(
+                    onNext = {
+                        Log.d(LOG_TAG, "Successfully posted token.")
+                    },
+                    onError = {
+                        Log.d(LOG_TAG, "Error posting token.")
+                    }
+            )
+        } else {
+            FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    updateDeviceToken(task.result.token)
+                } else {
+                    Log.d(LOG_TAG, "getInstanceId failed", task.exception)
+                }
+            }
+        }
     }
 
 }

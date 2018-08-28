@@ -1,5 +1,6 @@
 package io.grandlabs.ift.network
 
+import com.google.gson.annotations.SerializedName
 import io.grandlabs.ift.advocate.AdvocacyItem
 import io.grandlabs.ift.advocate.AdvocacyProvider
 import io.grandlabs.ift.calendar.CalendarItem
@@ -140,4 +141,15 @@ interface IftClient {
             @Path("favoriteUrl") favoriteUrl: String,
             @Path("contentId") contentId: String
     ): Observable<Response<Void>>
+
+    @POST("member_devicetoken")
+    fun postToken(
+            @Header("Authorization") token: String,
+            @Body params: TokenRequest
+    ): Observable<Response<Void>>
 }
+
+data class TokenRequest(
+        @SerializedName("DeviceTokenTypeID") val deviceTokenTypeId: Int,
+        @SerializedName("DeviceToken") val deviceToken: String?
+)
