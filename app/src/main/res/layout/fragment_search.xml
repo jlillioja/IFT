@@ -11,43 +11,47 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/search_icon"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:src="@drawable/search_icon" />
 
         <EditText
             android:id="@+id/searchBar"
-            android:hint="Search"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/helvetica"
+            android:hint="Search"
             android:inputType="text">
-            <requestFocus/>
+
+            <requestFocus />
         </EditText>
 
         <TextView
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:textColor="@color/ift_teal"
+            android:fontFamily="@font/helvetica"
             android:gravity="center"
-            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/search"
+            android:textColor="@color/ift_teal"
             android:textSize="14sp"
-            android:text="@string/search"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/noResults"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/helvetica"
+        android:gravity="center"
         android:text="@string/no_results"
-        android:textSize="18sp"
-        android:textColor="@color/neutral_grey"
-        android:gravity="center"/>
+        android:textColor="@color/ift_teal"
+        android:textSize="18sp" />
 
     <ListView
         android:id="@+id/searchResultsListView"
@@ -55,11 +59,11 @@
         android:layout_height="match_parent" />
 
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/loadingSpinner"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </LinearLayout>

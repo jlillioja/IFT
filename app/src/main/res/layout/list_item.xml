@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_height="70dp"
         android:layout_width="94dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
-
-    <LinearLayout android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14.5sp"
+            android:fontFamily="@font/helvetica_neue_condensed_bold"
             android:textColor="@color/ift_teal"
-            android:textStyle="bold"
-            android:id="@+id/titleText"/>
+            android:textSize="14.5sp"
+            android:textStyle="bold" />
+
         <TextView
+            android:id="@+id/detailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/neutral_grey"
-            android:id="@+id/detailText"/>
+            android:fontFamily="@font/helvetica_neue_condensed"
+            android:textColor="@color/neutral_grey" />
     </LinearLayout>
 
 </LinearLayout>

@@ -8,6 +8,7 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textSize="22sp"
+        android:fontFamily="@font/century_gothic"
         android:id="@+id/titleText"/>
 
     <ImageView

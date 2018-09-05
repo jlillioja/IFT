@@ -3,10 +3,11 @@
     android:id="@+id/preferenceGroupName"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="14sp"
-    android:textColor="@color/light_neutral_grey"
-    android:textStyle="bold"
+    android:fontFamily="@font/helvetica"
     android:gravity="center_vertical"
+    android:paddingBottom="10dp"
     android:paddingLeft="50dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp"/>
+    android:textColor="@color/light_neutral_grey"
+    android:textSize="14sp"
+    android:textStyle="bold" />
