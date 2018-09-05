@@ -11,6 +11,7 @@
         android:textAlignment="center"
         android:gravity="center"
         android:background="@color/ift_pale_cerulean"
+        android:textColor="@color/ift_teal"
         android:layout_height="70dp"
         android:layout_width="94dp"
         android:layout_marginLeft="20dp"
