@@ -1,13 +1,11 @@
 package io.grandlabs.ift
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
 import io.grandlabs.ift.calendar.CalendarFragment
@@ -22,6 +20,7 @@ import io.grandlabs.ift.news.NewsListFragment
 import io.grandlabs.ift.search.SearchFragment
 import io.grandlabs.ift.settings.SettingsFragment
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.action_bar_layout.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -53,42 +52,61 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     @Inject
     lateinit var navigationController: NavigationController
 
+    private val actionBar: View
+        get() = supportActionBar!!.customView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         IftApp.graph.inject(this)
 
         setContentView(R.layout.activity_main)
 
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setCustomView(R.layout.action_bar_layout)
+
         navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
+
+        actionBar.search.setOnClickListener {
+            navigateToSearch()
+        }
+
+        actionBar.settings.setOnClickListener {
+            navigateToSettings()
+        }
+
+        actionBar.favorite.setOnClickListener {
+            navigateToFavorites()
+        }
 
         navigateToNews()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.action_bar, menu)
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.action_bar, menu)
+//
+//        menu?.findItem(R.id.favorite)?.icon?.setColorFilter(ContextCompat.getColor(this, R.color.light_neutral_grey), PorterDuff.Mode.MULTIPLY)
+//
+//        return true
+//    }
 
-        menu?.findItem(R.id.favorite)?.icon?.setColorFilter(ContextCompat.getColor(this, R.color.light_neutral_grey), PorterDuff.Mode.MULTIPLY)
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.settings -> {
-                replaceContentWith(settingsFragment)
-                true
-            }
-            R.id.search -> {
-                replaceContentWith(searchFragment)
-                true
-            }
-            R.id.favorite -> {
-                replaceContentWith(favoritesFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        return when (item?.itemId) {
+//            R.id.settings -> {
+//                navigateToSearch()
+//                true
+//            }
+//            R.id.search -> {
+//                navigateToSearch()
+//                true
+//            }
+//            R.id.favorite -> {
+//                navigateToFavorites()
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
     private var navigationSubscription: Disposable? = null
 
@@ -111,8 +129,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     }
 
     override fun setCurrentlySelectedFragment(fragment: IftFragment) {
-//        supportActionBar!!.title = title
-        title = fragment.getActionBarTitle()
+        actionBar.titleText.text = fragment.getActionBarTitle()
         val menuItem = navigation.menu.findItem(getNavigationIdForFragment(fragment))
         menuItem?.isChecked = true
         // TODO: unselect for null?
@@ -152,52 +169,47 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     }
 
     private fun navigateToNews() {
-//        title = "News"
         replaceContentWith(newsListFragment)
     }
 
     private fun navigateToNewsDetail(item: NewsItem) {
-//        title = "News"
         replaceContentWith(newsDetailFragment)
     }
 
     private fun navigateToCalendar() {
-//        title = "Calendar"
         replaceContentWith(calendarFragment)
     }
 
     private fun navigateToCalendarDetail(item: CalendarItem) {
-//        title = item.title
         replaceContentWith(calendarDetailFragment)
     }
 
     private fun navigateToAdvocacyCenter() {
-//        title = "Advocacy Center"
         replaceContentWith(advocacyFragment)
     }
 
     private fun navigateToAdvocacyDetail() {
-//        title = "Advocacy Center"
         replaceContentWith(advocacyDetailFragment)
     }
 
     private fun navigateToContact() {
-//        title = "Contact"
         replaceContentWith(contactFragment)
     }
 
     private fun navigateToInvite() {
-//        title = "Invite Friends"
         replaceContentWith(inviteFragment)
     }
 
     private fun navigateToSettings() {
-//        title = "Settings"
         replaceContentWith(settingsFragment)
     }
 
     private fun navigateToSearch() {
         replaceContentWith(searchFragment)
+    }
+
+    private fun navigateToFavorites() {
+        replaceContentWith(favoritesFragment)
     }
 
     private fun replaceContentWith(fragment: Fragment) {

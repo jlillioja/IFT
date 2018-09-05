@@ -120,11 +120,11 @@ class FavoritesFragment : IftFragment() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeBy(
                                 onNext = {
-                                    Log.d(LOG_TAG, "Setting associated image for item ${item.title} on item $position")
+                                    Log.d(LOG_TAG+"associatedImage", "Setting associated image for item ${item.title} on item $position")
                                     view.image.setImageDrawable(it)
                                 },
                                 onError = {
-                                    Log.d(LOG_TAG, it.localizedMessage)
+                                    Log.d(LOG_TAG+"associatedImage", it.localizedMessage)
                                     view.image.visibility = View.GONE
                                 },
                                 onComplete = {}

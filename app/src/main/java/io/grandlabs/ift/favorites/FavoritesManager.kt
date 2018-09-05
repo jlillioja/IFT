@@ -28,17 +28,13 @@ class FavoritesManager
 
     fun getAllFavorites(): Observable<List<WebItem>> {
         return Observables.combineLatest(
-                iftClient
-                        .favoriteNews(sessionManager.authorizationHeader)
-                        .map { it.body() },
-                iftClient.favoritesAdvocacy(sessionManager.authorizationHeader)
-                        .map { it.body() },
+                iftClient.favoriteNews(sessionManager.authorizationHeader),
+                iftClient.favoritesAdvocacy(sessionManager.authorizationHeader),
                 iftClient.favoritesCalendarEvents(sessionManager.authorizationHeader)
-                        .map { it.body() }
-        ) { favoriteNews, favoriteAdvocacy, favoriteCalendarEvents ->
-            (favoriteNews ?: emptyList())
-                    .plus(favoriteAdvocacy ?: emptyList())
-                    .plus(favoriteCalendarEvents ?: emptyList())
+        ) { favoriteNewsResponse, favoriteAdvocacyResponse, favoriteCalendarEventsResponse ->
+            (favoriteNewsResponse.body() ?: emptyList())
+                    .plus(favoriteAdvocacyResponse.body() ?: emptyList())
+                    .plus(favoriteCalendarEventsResponse.body() ?: emptyList())
         }
     }
 }
