@@ -12,12 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import io.grandlabs.ift.*
+import io.grandlabs.ift.login.SessionManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_calendar_list.view.*
 import javax.inject.Inject
 
 class CalendarFragment : IftFragment() {
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     init {
         IftApp.graph.inject(this)
@@ -29,7 +33,7 @@ class CalendarFragment : IftFragment() {
 
         listener?.setCurrentlySelectedFragment(this)
 
-        val adapter = CalendarFragmentPagerAdapter(childFragmentManager)
+        val adapter = CalendarFragmentPagerAdapter(childFragmentManager, sessionManager.isUserAMember())
         view.findViewById<ViewPager>(R.id.calendarPager).adapter = adapter
 
         return view
@@ -38,19 +42,31 @@ class CalendarFragment : IftFragment() {
     override fun getActionBarTitle(): String = "Calendar"
 
 
-    class CalendarFragmentPagerAdapter(supportFragmentManager: FragmentManager)
-        : FragmentPagerAdapter(supportFragmentManager) {
+    class CalendarFragmentPagerAdapter(supportFragmentManager: FragmentManager,
+                                       private val shouldShowLocalEvents: Boolean
+    ) : FragmentPagerAdapter(supportFragmentManager) {
 
-        override fun getItem(position: Int): Fragment = when (position) {
-//            0 -> LocalCalendarListFragment()
-            else -> IftCalendarListFragment()
+        private val iftCalendarTitle = "IFT EVENTS"
+        private val localCalendarTitle = "LOCAL/COUNCIL EVENTS"
+
+        override fun getCount(): Int = if (shouldShowLocalEvents) 2 else 1
+
+        override fun getPageTitle(position: Int): CharSequence? = if (shouldShowLocalEvents) {
+            when (position) {
+                0 -> localCalendarTitle
+                else -> iftCalendarTitle
+            }
+        } else {
+            iftCalendarTitle
         }
 
-        override fun getCount(): Int = 1
-
-        override fun getPageTitle(position: Int): CharSequence? = when (position) {
-//            0 -> "LOCAL/COUNCIL EVENTS"
-            else -> "IFT EVENTS"
+        override fun getItem(position: Int): Fragment = if (shouldShowLocalEvents) {
+            when (position) {
+                0 -> LocalCalendarListFragment()
+                else -> IftCalendarListFragment()
+            }
+        } else {
+            IftCalendarListFragment()
         }
 
     }
