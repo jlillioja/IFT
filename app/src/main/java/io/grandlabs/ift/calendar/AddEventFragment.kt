@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import io.grandlabs.ift.*
+import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_add_event.view.*
 import java.text.SimpleDateFormat
@@ -22,6 +23,8 @@ class AddEventFragment : IftFragment() {
     lateinit var calendarManager: CalendarManager
     @Inject
     lateinit var navigationController: NavigationController
+
+    @Inject lateinit var linkHelper: LinkHelper
 
     init {
         IftApp.graph.inject(this)
@@ -86,20 +89,22 @@ class AddEventFragment : IftFragment() {
             if (view.inputIsValid()) {
                 view.normalizeAddress()
 
+                val addEventRequest = AddEventRequest(
+                        view.eventName.text.toString(),
+                        view.summary.text.toString(),
+                        view.description.text.toString(),
+                        view.eventLink.text.toString(),
+                        startDate?.formatted() ?: "",
+                        endDate?.formatted() ?: "",
+                        view.address.text.toString(),
+                        view.city.text.toString(),
+                        view.state.text.toString(),
+                        view.zip.text.toString(),
+                        view.allDaySwitch.isChecked
+                )
+
                 calendarManager
-                        .saveEvent(AddEventRequest(
-                                view.eventName.text.toString(),
-                                view.summary.text.toString(),
-                                view.description.text.toString(),
-                                view.eventLink.text.toString(),
-                                startDate?.formatted() ?: "",
-                                endDate?.formatted() ?: "",
-                                view.address.text.toString(),
-                                view.city.text.toString(),
-                                view.state.text.toString(),
-                                view.zip.text.toString(),
-                                view.allDaySwitch.isChecked
-                        ))
+                        .saveEvent(addEventRequest)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { success ->
                             if (success) {

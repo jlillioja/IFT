@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
                 is NavigationState.NewsDetail -> navigateToNewsDetail(it.item)
                 is NavigationState.Calendar -> navigateToCalendar()
                 is NavigationState.CalendarDetail -> navigateToCalendarDetail(it.item)
+                is NavigationState.AddEvent -> navigateToAddEvent()
                 is NavigationState.Advocacy -> navigateToAdvocacyCenter()
                 is NavigationState.AdvocacyDetail -> navigateToAdvocacyDetail()
                 is NavigationState.Contact -> navigateToContact()

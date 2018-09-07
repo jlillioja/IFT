@@ -28,6 +28,7 @@ sealed class NavigationState {
     class NewsDetail(val item: NewsItem): NavigationState()
     object Calendar: NavigationState()
     class CalendarDetail(val item: CalendarItem) : NavigationState()
+    object AddEvent: NavigationState()
     object Advocacy: NavigationState()
     class AdvocacyDetail(val item: AdvocacyItem): NavigationState()
     object Contact: NavigationState()

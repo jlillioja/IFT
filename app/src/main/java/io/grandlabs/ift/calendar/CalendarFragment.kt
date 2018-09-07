@@ -95,6 +95,13 @@ class CalendarFragment : IftFragment() {
                 navigationController.navigateTo(NavigationState.CalendarDetail(calendarAdapter.getItem(position)))
             }
 
+            view.addEventButton.setOnClickListener {
+                navigationController.navigateTo(NavigationState.AddEvent)
+            }
+            view.addEventText.setOnClickListener {
+                navigationController.navigateTo(NavigationState.AddEvent)
+            }
+
             view.swipeRefresh.setOnRefreshListener {
                 refresh()
             }
@@ -115,6 +122,9 @@ class CalendarFragment : IftFragment() {
                         calendarAdapter.clear()
                         calendarAdapter.addAll(it)
                         calendarAdapter.notifyDataSetChanged()
+
+                        view?.noEventsView?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+
                     }, {
                         view?.loadingSpinner?.visibility = View.GONE
                         view?.swipeRefresh?.isRefreshing = false
