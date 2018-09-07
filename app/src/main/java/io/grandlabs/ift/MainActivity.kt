@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
+import io.grandlabs.ift.calendar.AddEventFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.calendar.CalendarItem
 import io.grandlabs.ift.contact.ContactFragment
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     lateinit var searchFragment: SearchFragment
     @Inject
     lateinit var favoritesFragment: FavoritesFragment
+    @Inject
+    lateinit var addEventFragment: AddEventFragment
 
     @Inject
     lateinit var navigationController: NavigationController
@@ -79,34 +82,16 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
             navigateToFavorites()
         }
 
+        actionBar.plus.setOnClickListener {
+            navigateToAddEvent()
+        }
+
         navigateToNews()
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.action_bar, menu)
-//
-//        menu?.findItem(R.id.favorite)?.icon?.setColorFilter(ContextCompat.getColor(this, R.color.light_neutral_grey), PorterDuff.Mode.MULTIPLY)
-//
-//        return true
-//    }
 
 //    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        return when (item?.itemId) {
-//            R.id.settings -> {
-//                navigateToSearch()
-//                true
-//            }
-//            R.id.search -> {
-//                navigateToSearch()
-//                true
-//            }
-//            R.id.favorite -> {
-//                navigateToFavorites()
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
 
     private var navigationSubscription: Disposable? = null
 
@@ -178,6 +163,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
 
     private fun navigateToCalendar() {
         replaceContentWith(calendarFragment)
+        actionBar.plus.visibility = View.VISIBLE
     }
 
     private fun navigateToCalendarDetail(item: CalendarItem) {
@@ -212,7 +198,13 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
         replaceContentWith(favoritesFragment)
     }
 
+    private fun navigateToAddEvent() {
+        replaceContentWith(addEventFragment)
+        actionBar.plus.visibility = View.VISIBLE
+    }
+
     private fun replaceContentWith(fragment: Fragment) {
+        setActionBarToDefault()
         if (!fragment.isAdded) {
             supportFragmentManager
                     .beginTransaction()
@@ -221,4 +213,31 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
                     .commitAllowingStateLoss()
         }
     }
+
+    private fun setActionBarToDefault() {
+        actionBar.plus.visibility = View.GONE
+    }
+
 }
+//    }
+//        }
+//            else -> super.onOptionsItemSelected(item)
+//            }
+//                true
+//                navigateToFavorites()
+//            R.id.favorite -> {
+//            }
+//                true
+//                navigateToSearch()
+//            R.id.search -> {
+//            }
+//                true
+//                navigateToSearch()
+//            R.id.settings -> {
+//        return when (item?.itemId) {
+//    }
+//        return true
+//
+//        menu?.findItem(R.id.favorite)?.icon?.setColorFilter(ContextCompat.getColor(this, R.color.light_neutral_grey), PorterDuff.Mode.MULTIPLY)
+//
+//        menuInflater.inflate(R.menu.action_bar, menu)

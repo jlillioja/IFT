@@ -8,6 +8,7 @@ import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationControllerImpl
 import io.grandlabs.ift.advocate.AdvocacyDetailFragment
 import io.grandlabs.ift.advocate.AdvocacyFragment
+import io.grandlabs.ift.calendar.AddEventFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
 import io.grandlabs.ift.favorites.FavoritesFragment
@@ -72,6 +73,10 @@ class AndroidModule(private val application: IftApp) {
     @Provides
     @Singleton
     fun provideFavoritesFragment(): FavoritesFragment = FavoritesFragment()
+
+    @Provides
+    @Singleton
+    fun provideAddEventFragment(): AddEventFragment = AddEventFragment()
 
     @Provides
     @Singleton

@@ -3,8 +3,9 @@ package io.grandlabs.ift.network
 import com.google.gson.annotations.SerializedName
 import io.grandlabs.ift.advocate.AdvocacyItem
 import io.grandlabs.ift.advocate.AdvocacyProvider
+import io.grandlabs.ift.calendar.AddEventRequest
 import io.grandlabs.ift.calendar.CalendarItem
-import io.grandlabs.ift.calendar.CalendarProvider
+import io.grandlabs.ift.calendar.CalendarManager
 import io.grandlabs.ift.calendar.CalendarResult
 import io.grandlabs.ift.contact.OfficeResult
 import io.grandlabs.ift.login.CheckRegistrationResult
@@ -47,6 +48,12 @@ interface IftClient {
             @Query("filter") filter: String? = null,
             @Query("sorts") sort: String? = null
     ): Observable<Response<CalendarResult>>
+
+    @POST("calendarevent")
+    fun addEvent(
+        @Header("Authorization") token: String,
+        @Body params: AddEventRequest
+    ): Observable<Response<Void>>
 
     @GET("advocacy")
     fun advocacy(
@@ -118,7 +125,7 @@ interface IftClient {
             @Header("Authorization") token: String
     ): Observable<Response<List<NewsItem>>>
 
-    @GET(CalendarProvider.favoritesUrl)
+    @GET(CalendarManager.favoritesUrl)
     fun favoritesCalendarEvents(
             @Header("Authorization") token: String
     ): Observable<Response<List<CalendarItem>>>

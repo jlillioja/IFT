@@ -74,7 +74,7 @@ class CalendarFragment : IftFragment() {
     open class CalendarListFragment : Fragment() {
 
         @Inject
-        lateinit var calendarProvider: CalendarProvider
+        lateinit var calendarManager: CalendarManager
         @Inject
         lateinit var calendarAdapter: CalendarAdapter
         @Inject
@@ -105,7 +105,7 @@ class CalendarFragment : IftFragment() {
         }
 
         private fun refresh() {
-            calendarProvider.getCalendar()
+            calendarManager.getCalendar()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { it.filter(itemFilter) }

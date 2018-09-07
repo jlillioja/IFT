@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class CalendarProvider
+class CalendarManager
 @Inject constructor(
         private val iftClient: IftClient,
         private val sessionManager: SessionManager
@@ -40,5 +40,14 @@ class CalendarProvider
             }
             items
         }
+    }
+
+    fun saveEvent(addEventRequest: AddEventRequest): Observable<Boolean> {
+        return iftClient
+                .addEvent(
+                        sessionManager.authorizationHeader,
+                        addEventRequest)
+                .map { true }
+                .onErrorReturnItem(false)
     }
 }
