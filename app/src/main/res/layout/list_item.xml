@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/helvetica_neue_condensed"
-            android:textColor="@color/neutral_grey" />
+            android:textColor="@color/light_neutral_grey" />
     </LinearLayout>
 
 </LinearLayout>

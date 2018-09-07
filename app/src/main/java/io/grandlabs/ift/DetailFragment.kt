@@ -55,7 +55,7 @@ abstract class DetailFragment : IftFragment() {
 
             val content = "<body>${getBodyHtml()}</body>"
 
-            view.contentWebView.loadData(css + content, "text/html; charset=UTF-8", null)
+            view.contentWebView.loadDataWithBaseURL("file:///android_asset/", css + content, "text/html; charset=UTF-8", null, null)
         } else {
             view.contentWebView.loadUrl(getRedirectUrl())
         }
