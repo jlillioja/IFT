@@ -15,6 +15,7 @@ import io.grandlabs.ift.*
 import io.grandlabs.ift.login.SessionManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_calendar.view.*
 import kotlinx.android.synthetic.main.fragment_calendar_list.view.*
 import javax.inject.Inject
 
@@ -31,10 +32,20 @@ class CalendarFragment : IftFragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        listener?.setCurrentlySelectedFragment(this)
-
         val adapter = CalendarFragmentPagerAdapter(childFragmentManager, sessionManager.isUserAMember())
-        view.findViewById<ViewPager>(R.id.calendarPager).adapter = adapter
+        view.calendarPager.adapter = adapter
+        view.calendarPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                listener?.setCurrentlySelectedFragment(adapter.getItem(position) as IftFragment)
+
+            }
+        })
+
+        listener?.setCurrentlySelectedFragment(adapter.getItem(0) as IftFragment)
 
         return view
     }
@@ -68,23 +79,23 @@ class CalendarFragment : IftFragment() {
         } else {
             IftCalendarListFragment()
         }
-
     }
 
-    open class CalendarListFragment : Fragment() {
-
+    open class CalendarListFragment : IftFragment() {
         @Inject
         lateinit var calendarManager: CalendarManager
+
         @Inject
         lateinit var calendarAdapter: CalendarAdapter
         @Inject
         lateinit var navigationController: NavigationController
-
         protected open var itemFilter: (CalendarItem) -> Boolean = { true }
 
         init {
             IftApp.graph.inject(this)
         }
+
+        override fun getActionBarTitle(): String = "Calendar"
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {

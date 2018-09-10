@@ -118,6 +118,8 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
         actionBar.titleText.text = fragment.getActionBarTitle()
         val menuItem = navigation.menu.findItem(getNavigationIdForFragment(fragment))
         menuItem?.isChecked = true
+
+        actionBar.plus.visibility = if (fragment is CalendarFragment.LocalCalendarListFragment) View.VISIBLE else View.GONE
         // TODO: unselect for null?
     }
 
@@ -164,7 +166,6 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
 
     private fun navigateToCalendar() {
         replaceContentWith(calendarFragment)
-        actionBar.plus.visibility = View.VISIBLE
     }
 
     private fun navigateToCalendarDetail(item: CalendarItem) {
@@ -205,7 +206,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     }
 
     private fun replaceContentWith(fragment: Fragment) {
-        setActionBarToDefault()
+//        setActionBarToDefault()
         if (!fragment.isAdded) {
             supportFragmentManager
                     .beginTransaction()
