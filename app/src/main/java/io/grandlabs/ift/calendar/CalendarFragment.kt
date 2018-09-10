@@ -50,7 +50,7 @@ class CalendarFragment : IftFragment() {
         return view
     }
 
-    override fun getActionBarTitle(): String = "Calendar"
+    override fun getActionBarTitle(): String = "calendar"
 
 
     class CalendarFragmentPagerAdapter(supportFragmentManager: FragmentManager,
@@ -95,7 +95,7 @@ class CalendarFragment : IftFragment() {
             IftApp.graph.inject(this)
         }
 
-        override fun getActionBarTitle(): String = "Calendar"
+        override fun getActionBarTitle(): String = "calendar"
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {

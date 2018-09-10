@@ -53,7 +53,7 @@ class CalendarDetailFragment : DetailFragment() {
         return view
     }
 
-    override fun getActionBarTitle(): String = item?.title ?: "Calendar"
+    override fun getActionBarTitle(): String = item?.title ?: "calendar"
 
     private val LOG_TAG = this::class.simpleName
 

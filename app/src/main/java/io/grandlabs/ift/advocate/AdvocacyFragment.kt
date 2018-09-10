@@ -46,7 +46,7 @@ class AdvocacyFragment : IftFragment() {
         return view
     }
 
-    override fun getActionBarTitle(): String = "Advocacy Center"
+    override fun getActionBarTitle(): String = "advocacy center"
 
     private fun refresh() {
         advocacyProvider

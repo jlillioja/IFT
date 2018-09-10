@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.list_item.view.*
 import javax.inject.Inject
 
 class SearchFragment : IftFragment() {
-    override fun getActionBarTitle() = "Search"
+    override fun getActionBarTitle() = "search"
 
     @Inject
     lateinit var searchProvider: SearchProvider

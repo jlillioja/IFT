@@ -22,7 +22,7 @@ import java.util.*
 import javax.inject.Inject
 
 class FavoritesFragment : IftFragment() {
-    override fun getActionBarTitle() = "Favorites"
+    override fun getActionBarTitle() = "favorites"
 
     @Inject
     lateinit var favoritesManager: FavoritesManager

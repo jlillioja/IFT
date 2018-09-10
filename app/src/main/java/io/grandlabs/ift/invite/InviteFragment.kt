@@ -34,7 +34,7 @@ class InviteFragment : IftFragment() {
         return view
     }
 
-    override fun getActionBarTitle(): String = "Invite Friends"
+    override fun getActionBarTitle(): String = "invite friends"
 
     private fun onClickFacebook() {
         linkHelper.shareAppLinkByFacebook(this)

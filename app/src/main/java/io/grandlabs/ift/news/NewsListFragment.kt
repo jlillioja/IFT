@@ -60,7 +60,7 @@ class NewsListFragment : IftFragment() {
         super.onDestroy()
     }
 
-    override fun getActionBarTitle(): String = "News"
+    override fun getActionBarTitle(): String = "news"
 
     private fun refresh() {
         newsProvider.getNews()

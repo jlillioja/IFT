@@ -46,7 +46,7 @@ class ContactFragment : IftFragment() {
         return view
     }
 
-    override fun getActionBarTitle(): String = "Contact"
+    override fun getActionBarTitle(): String = "contact"
 
     private fun refresh() {
         contactProvider

@@ -42,7 +42,7 @@ class AdvocacyDetailFragment: DetailFragment() {
         return item
     }
 
-    override fun getActionBarTitle(): String = "Advocacy Center"
+    override fun getActionBarTitle(): String = "advocacy center"
 
     override fun getTitle(): String? {
         return item.title

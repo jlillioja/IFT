@@ -28,7 +28,7 @@ class NewsDetailFragment : DetailFragment() {
     override fun getItem(): WebItem = item
 
 
-    override fun getActionBarTitle(): String = "News"
+    override fun getActionBarTitle(): String = "news"
 
     override fun getTitle(): String? = item.title
 

@@ -40,7 +40,7 @@ class SettingsFragment : IftFragment() {
         IftApp.graph.inject(this)
     }
 
-    override fun getActionBarTitle(): String = "Settings"
+    override fun getActionBarTitle(): String = "settings"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

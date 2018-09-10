@@ -33,7 +33,7 @@ class AddEventFragment : IftFragment() {
     var startDate: Calendar? = null
     var endDate: Calendar? = null
 
-    override fun getActionBarTitle(): String = "Create Event"
+    override fun getActionBarTitle(): String = "create event"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_add_event, container, false)
