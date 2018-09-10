@@ -10,7 +10,7 @@
         android:layout_centerInParent="true"
         android:fontFamily="@font/century_gothic"
         android:gravity="center"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/plus"
