@@ -10,7 +10,6 @@ import io.grandlabs.ift.defaultSharedPreferences
 import io.grandlabs.ift.network.IftClient
 import io.grandlabs.ift.network.TokenData
 import io.grandlabs.ift.network.TokenRequest
-import io.grandlabs.ift.settings.IftMember
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
 import org.json.JSONObject
@@ -49,7 +48,7 @@ class SessionManager
     var authToken: String? = null
     var tokenData: TokenData? = null
     val memberId: Int get() = tokenData?.id?.toInt() ?: 0
-    var member: IftMember? = null
+//    var member: IftMember? = null
     fun isUserAMember(): Boolean = !(tokenData?.localNum?.equals("9911") ?: true)
     val authorizationHeader: String get() = "Bearer $authToken"
 

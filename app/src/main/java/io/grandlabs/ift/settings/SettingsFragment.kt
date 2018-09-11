@@ -34,7 +34,8 @@ class SettingsFragment : IftFragment() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-    @Inject lateinit var linkHelper: LinkHelper
+    @Inject
+    lateinit var linkHelper: LinkHelper
 
     init {
         IftApp.graph.inject(this)
@@ -78,7 +79,7 @@ class SettingsFragment : IftFragment() {
                             // TODO: switch listeners
                         },
                         onError = {
-//                            view.accountInformation.visibility = View.VISIBLE
+                            //                            view.accountInformation.visibility = View.VISIBLE
                         },
                         onComplete = {}
                 )
@@ -101,7 +102,7 @@ class SettingsFragment : IftFragment() {
                             view.localChapterInformation.visibility = View.VISIBLE
                         },
                         onError = {
-                            Log.d(LOG_TAG, it.localizedMessage)
+                            Log.d(LOG_TAG, "LocalOfficeError: ${it.localizedMessage}")
                         },
                         onComplete = {}
                 )
@@ -112,7 +113,9 @@ class SettingsFragment : IftFragment() {
                         onNext = {
                             localChapterPresident.text = it?.fullName ?: ""
                         },
-                        onError = {},
+                        onError = {
+                            Log.d(LOG_TAG, "PresidentError: ${it.localizedMessage}")
+                        },
                         onComplete = {}
                 )
 
@@ -122,7 +125,7 @@ class SettingsFragment : IftFragment() {
                         onNext = {
                             localChapterVicePresident.text = it?.fullName ?: ""
                         },
-                        onError = {},
+                        onError = { Log.d(LOG_TAG, "VicePresidentError: ${it.localizedMessage}") },
                         onComplete = {}
                 )
 
@@ -132,7 +135,7 @@ class SettingsFragment : IftFragment() {
                         onNext = {
                             localChapterFieldServiceDirector.text = it?.fullName ?: ""
                         },
-                        onError = {},
+                        onError = { Log.d(LOG_TAG, "FieldServiceDirectorError: ${it.localizedMessage}") },
                         onComplete = {}
                 )
 

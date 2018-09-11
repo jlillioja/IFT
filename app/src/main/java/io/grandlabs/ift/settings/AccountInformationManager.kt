@@ -16,7 +16,6 @@ class AccountInformationManager @Inject constructor(
                 sessionManager.authorizationHeader)
                 .share()
                 .map {
-                    sessionManager.member = it.body()
                     it.body()
                 }
 
@@ -34,39 +33,26 @@ class AccountInformationManager @Inject constructor(
     }
 
     fun getPresident(): Observable<President> {
-        val localNum = sessionManager.member?.localNum
-        if (localNum != null) {
-            return iftClient.localPresident(localNum, sessionManager.authorizationHeader)
-                    .map { it.body()?.first() }
-        } else {
-            return getMember()
-                    .flatMap { iftClient.localPresident(it.localNum, sessionManager.authorizationHeader) }
-                    .map { it.body()?.first() }
-        }
+        return getMember()
+                .flatMap { iftClient.localPresident(it.localNum, sessionManager.authorizationHeader) }
+                .map { it.body()?.first() }
+
     }
 
     fun getVicePresident(): Observable<VicePresident> {
-        val localNum = sessionManager.member?.localNum
-        if (localNum != null) {
-            return iftClient.localVicePresident(localNum, sessionManager.authorizationHeader)
-                    .map { it.body()?.first() }
-        } else {
-            return getMember()
-                    .flatMap { iftClient.localVicePresident(it.localNum, sessionManager.authorizationHeader) }
-                    .map { it.body()?.first() }
-        }
+
+        return getMember()
+                .flatMap { iftClient.localVicePresident(it.localNum, sessionManager.authorizationHeader) }
+                .map { it.body()?.first() }
+
     }
 
     fun getFieldServiceDirector(): Observable<FieldServiceDirector> {
-        val localNum = sessionManager.member?.localNum
-        if (localNum != null) {
-            return iftClient.localFieldServiceDirector(localNum, sessionManager.authorizationHeader)
-                    .map { it.body() }
-        } else {
-            return getMember()
-                    .flatMap { iftClient.localFieldServiceDirector(it.localNum, sessionManager.authorizationHeader) }
-                    .map { it.body() }
-        }
+
+        return getMember()
+                .flatMap { iftClient.localFieldServiceDirector(it.localNum, sessionManager.authorizationHeader) }
+                .map { it.body() }
+
     }
 //
 //    fun getLocalOfficers(): Observable<LocalOfficers> {

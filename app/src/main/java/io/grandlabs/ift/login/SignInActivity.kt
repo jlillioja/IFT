@@ -142,8 +142,6 @@ class SignInActivity
         progressDialog?.dismiss()
         when (result) {
             LoginResult.Success -> {
-                accountInformationManager.getMember().subscribe { sessionManager.member = it }
-
                 intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
