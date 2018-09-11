@@ -12,6 +12,7 @@ import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.MainActivity
 import io.grandlabs.ift.R
 import io.grandlabs.ift.login.RegistrationStatus.*
+import io.grandlabs.ift.settings.AccountInformationManager
 import io.grandlabs.ift.showProgressDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -25,6 +26,9 @@ class SignInActivity
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject
+    lateinit var accountInformationManager: AccountInformationManager
 
     var progressDialog: ProgressDialog? = null
 
@@ -138,6 +142,8 @@ class SignInActivity
         progressDialog?.dismiss()
         when (result) {
             LoginResult.Success -> {
+                accountInformationManager.getMember().subscribe { sessionManager.member = it }
+
                 intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }

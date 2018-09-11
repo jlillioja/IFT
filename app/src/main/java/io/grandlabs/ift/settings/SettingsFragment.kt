@@ -29,7 +29,7 @@ class SettingsFragment : IftFragment() {
     val LOG_TAG = this::class.simpleName
 
     @Inject
-    lateinit var accountInformationProvider: AccountInformationProvider
+    lateinit var accountInformationManager: AccountInformationManager
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -53,7 +53,7 @@ class SettingsFragment : IftFragment() {
             activity?.finish()
         }
 
-        accountInformationProvider.getMember()
+        accountInformationManager.getMember()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
@@ -83,7 +83,7 @@ class SettingsFragment : IftFragment() {
                         onComplete = {}
                 )
 
-        accountInformationProvider.getLocalOffice()
+        accountInformationManager.getLocalOffice()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
@@ -106,21 +106,39 @@ class SettingsFragment : IftFragment() {
                         onComplete = {}
                 )
 
-        accountInformationProvider.getLocalOfficers()
+        accountInformationManager.getPresident()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
-                            localChapterPresident.text = it.president?.fullName ?: ""
-                            localChapterVicePresident.text = it.vicePresident?.fullName ?: ""
-                            localChapterFieldServiceDirector.text = it.fieldServiceDirector?.fullName ?: ""
+                            localChapterPresident.text = it?.fullName ?: ""
+                        },
+                        onError = {},
+                        onComplete = {}
+                )
+
+        accountInformationManager.getVicePresident()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = {
+                            localChapterVicePresident.text = it?.fullName ?: ""
+                        },
+                        onError = {},
+                        onComplete = {}
+                )
+
+        accountInformationManager.getFieldServiceDirector()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = {
+                            localChapterFieldServiceDirector.text = it?.fullName ?: ""
                         },
                         onError = {},
                         onComplete = {}
                 )
 
         Observables.combineLatest(
-                accountInformationProvider.getNewsPreferences(),
-                accountInformationProvider.getAdvocacyPreferences()
+                accountInformationManager.getNewsPreferences(),
+                accountInformationManager.getAdvocacyPreferences()
         ) { newsPreferences, advocacyPreferences ->
             (newsPreferences to advocacyPreferences)
         }
@@ -140,7 +158,6 @@ class SettingsFragment : IftFragment() {
         return view
     }
 
-    // TODO: custom subclass of BaseExpandableListAdapter?
     class PreferencesListAdapter(context: Context, val oldNewsPreferences: List<Preference>, val oldAdvocacyPreferences: List<Preference>) : SimpleExpandableListAdapter(
             context,
 
@@ -189,7 +206,11 @@ class SettingsFragment : IftFragment() {
                         }
                     }
                     advocacyGroupPosition -> {
-
+                        if (isChecked) {
+                            userNewsPreferences.add(preference)
+                        } else {
+                            userNewsPreferences.remove(preference)
+                        }
                     }
                 }
             }
