@@ -71,13 +71,15 @@ class SettingsFragment : IftFragment() {
                             view.email.text = it.homeEmail
                             view.memberId.text = it.memberId
 
-                            view.accountInformation.visibility = View.VISIBLE
+//                            view.accountInformation.visibility = View.VISIBLE
 
                             view.pushNotificationsSwitch.isChecked = it.isPushNotificationsEnabled
                             view.emailAlertsSwitch.isChecked = it.isEmailAlertsEnabled
                             // TODO: switch listeners
                         },
-                        onError = {},
+                        onError = {
+//                            view.accountInformation.visibility = View.VISIBLE
+                        },
                         onComplete = {}
                 )
 
