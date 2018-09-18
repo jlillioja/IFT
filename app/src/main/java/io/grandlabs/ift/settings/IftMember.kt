@@ -13,7 +13,7 @@ data class IftMember(
         @SerializedName("WorkPhone") val workPhone: String,
         @SerializedName("CellPhone") val cellPhone: String,
         @SerializedName("HomeEmail") val homeEmail: String,
-        @SerializedName("id") val memberId: String,
+        @SerializedName("ID") val memberId: String,
         @SerializedName("LocalNum") val localNum: Int,
         @SerializedName("PushNotifications") val isPushNotificationsEnabled: Boolean,
         @SerializedName("EmailAlerts") val isEmailAlertsEnabled: Boolean
