@@ -8,10 +8,15 @@ import io.reactivex.subjects.BehaviorSubject
 
 interface NavigationController {
     fun navigateTo(navigationState: NavigationState)
+    fun navigateBack()
+
     val navigation: Observable<NavigationState>
 }
 
 class NavigationControllerImpl: NavigationController {
+    override fun navigateBack() {
+        navigation.onNext(NavigationState.Back)
+    }
 
     override fun navigateTo(navigationState: NavigationState) {
         navigation.onNext(navigationState)
@@ -34,4 +39,5 @@ sealed class NavigationState {
     object Contact: NavigationState()
     object Invite: NavigationState()
     object Settings: NavigationState()
+    object Back: NavigationState()
 }

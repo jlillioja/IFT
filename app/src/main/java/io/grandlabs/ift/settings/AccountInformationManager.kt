@@ -2,7 +2,9 @@ package io.grandlabs.ift.settings
 
 import io.grandlabs.ift.login.SessionManager
 import io.grandlabs.ift.network.IftClient
+import io.grandlabs.ift.network.PutAlertPreferencesRequest
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.combineLatest
 import javax.inject.Inject
 
 class AccountInformationManager @Inject constructor(
@@ -10,42 +12,32 @@ class AccountInformationManager @Inject constructor(
         val sessionManager: SessionManager
 ) {
 
-    fun getMember(): Observable<IftMember> {
-        return iftClient.member(
-                sessionManager.memberId,
-                sessionManager.authorizationHeader)
-                .share()
-                .map {
-                    it.body()
-                }
+    fun getMember(): Observable<IftMember> =
+            iftClient.member(
+                    sessionManager.memberId,
+                    sessionManager.authorizationHeader)
+                    .share()
+                    .map {
+                        it.body()
+                    }
 
-    }
+    fun getLocalOffice(): Observable<LocalOffice> =
+            getMember()
+                    .flatMap {
+                        iftClient.local(
+                                it.localNum,
+                                sessionManager.authorizationHeader
+                        )
+                    }
+                    .map { it.body()?.get(0) }
 
-    fun getLocalOffice(): Observable<LocalOffice> {
-        return getMember()
-                .flatMap {
-                    iftClient.local(
-                            it.localNum,
-                            sessionManager.authorizationHeader
-                    )
-                }
-                .map { it.body()?.get(0) }
-    }
+    fun getPresident(): Observable<President> = getMember()
+            .flatMap { iftClient.localPresident(it.localNum, sessionManager.authorizationHeader) }
+            .map { it.body()?.first() }
 
-    fun getPresident(): Observable<President> {
-        return getMember()
-                .flatMap { iftClient.localPresident(it.localNum, sessionManager.authorizationHeader) }
-                .map { it.body()?.first() }
-
-    }
-
-    fun getVicePresident(): Observable<VicePresident> {
-
-        return getMember()
-                .flatMap { iftClient.localVicePresident(it.localNum, sessionManager.authorizationHeader) }
-                .map { it.body()?.first() }
-
-    }
+    fun getVicePresident(): Observable<VicePresident> = getMember()
+            .flatMap { iftClient.localVicePresident(it.localNum, sessionManager.authorizationHeader) }
+            .map { it.body()?.first() }
 
     fun getFieldServiceDirector(): Observable<FieldServiceDirector> {
 
@@ -54,23 +46,6 @@ class AccountInformationManager @Inject constructor(
                 .map { it.body() }
 
     }
-//
-//    fun getLocalOfficers(): Observable<LocalOfficers> {
-//        return getMember().flatMap {
-//            Observables.combineLatest(
-//                    iftClient.localPresident(it.localNum, sessionManager.authorizationHeader),
-//                    iftClient.localVicePresident(it.localNum, sessionManager.authorizationHeader),
-//                    iftClient.localFieldServiceDirector(it.localNum, sessionManager.authorizationHeader)
-//            ) { presidentResponse, vicePresidentResponse, fieldServiceDirectorResponse ->
-//                Log.d("AccountInformationManager", )
-//                LocalOfficers(
-//                        presidentResponse.body()?.firstOrNull(),
-//                        vicePresidentResponse.body()?.firstOrNull(),
-//                        fieldServiceDirectorResponse.body()
-//                )
-//            }
-//        }
-//    }
 
     fun getNewsPreferences(): Observable<List<Preference>> {
         return iftClient
@@ -78,10 +53,44 @@ class AccountInformationManager @Inject constructor(
                 .map { it.body() }
     }
 
-//    fun setEmailAlerts(active: Boolean): Observable<Void> {
-//
-//    }
-//
+    fun setAlertPreferences(emailAlerts: Boolean, pushNotifications: Boolean): Observable<Boolean> {
+        return iftClient
+                .putAlertPreferences(
+                        sessionManager.memberId,
+                        sessionManager.authorizationHeader,
+                        PutAlertPreferencesRequest(if (emailAlerts) 1 else 0, if (pushNotifications) 1 else 0))
+                .map { true }
+                .onErrorReturnItem(false)
+    }
+
+    fun addNewsAlertCategoryPreferences(preferences: List<Preference>): Observable<Boolean> {
+        return if(preferences.isEmpty()) Observable.just(true) else preferences
+                .map { iftClient.addNewsPreference(it.id, sessionManager.authorizationHeader) }
+                .combineLatest { true }
+                .onErrorReturnItem(false)
+    }
+
+    fun removeNewsAlertCategoryPreferences(preferences: List<Preference>): Observable<Boolean> {
+        return if(preferences.isEmpty()) Observable.just(true) else preferences
+                .map { iftClient.removeNewsPreference(it.id, sessionManager.authorizationHeader) }
+                .combineLatest { true }
+                .onErrorReturnItem(false)
+    }
+
+    fun addAdvocacyAlertCategoryPreferences(preferences: List<Preference>): Observable<Boolean> {
+        return if(preferences.isEmpty()) Observable.just(true) else preferences
+                .map { iftClient.addAdvocacyPreference(it.id, sessionManager.authorizationHeader) }
+                .combineLatest { true }
+                .onErrorReturnItem(false)
+    }
+
+    fun removeAdvocacyAlertCategoryPreferences(preferences: List<Preference>): Observable<Boolean> {
+        return if(preferences.isEmpty()) Observable.just(true) else preferences
+                .map { iftClient.removeAdvocacyPreference(it.id, sessionManager.authorizationHeader) }
+                .combineLatest { true }
+                .onErrorReturnItem(false)
+    }
+
 //    - (IBAction) doSave {
 //
 //        [self showActivityIndicator];

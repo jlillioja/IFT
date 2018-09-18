@@ -74,6 +74,13 @@ interface IftClient {
             @Header("Authorization") token: String
     ): Observable<Response<IftMember>>
 
+    @PUT("member/{id}")
+    fun putAlertPreferences(
+            @Path("id") memberId: Int,
+            @Header("Authorization") token: String,
+            @Body params: PutAlertPreferencesRequest
+    ): Observable<Response<Void>>
+
     @GET("local/{localNum}")
     fun local(
             @Path("localNum") localNum: Int,
@@ -103,10 +110,35 @@ interface IftClient {
             @Header("Authorization") token: String
     ): Observable<Response<List<Preference>>>
 
+    @POST("member_categorynews/{categoryId}")
+    fun addNewsPreference(
+            @Path("categoryId") categoryId: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<Void>>
+
+    @DELETE("member_categorynews/{categoryId}")
+    fun removeNewsPreference(
+            @Path("categoryId") categoryId: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<Void>>
+
     @GET("member_categoryadvocacy")
     fun advocacyPreferences(
             @Header("Authorization") token: String
     ): Observable<Response<List<Preference>>>
+
+    @POST("member_categoryadvocacy/{categoryId}")
+    fun addAdvocacyPreference(
+            @Path("categoryId") categoryId: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<Void>>
+
+    @DELETE("member_categoryadvocacy/{categoryId}")
+    fun removeAdvocacyPreference(
+            @Path("categoryId") categoryId: Int,
+            @Header("Authorization") token: String
+    ): Observable<Response<Void>>
+
 
     @GET("register")
     fun checkRegistration(

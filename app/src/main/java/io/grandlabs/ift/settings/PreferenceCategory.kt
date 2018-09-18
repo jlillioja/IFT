@@ -38,4 +38,14 @@ sealed class PreferenceCategory(
 data class Preference(
         @SerializedName("Name") val name: String,
         @SerializedName("ID") val id: Int
-)
+) {
+    override fun equals(other: Any?) = if (other is Preference) {
+        (other.id == id)
+    } else {
+        false
+    }
+
+    override fun hashCode(): Int {
+        return id
+    }
+}

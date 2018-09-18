@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     @Inject
     lateinit var navigationController: NavigationController
 
-    private val actionBar: View
+    private val customActionBar: View
         get() = supportActionBar!!.customView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,27 +64,7 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
 
         setContentView(R.layout.activity_main)
 
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar?.setDisplayShowCustomEnabled(true)
-        supportActionBar?.setCustomView(R.layout.action_bar_layout)
-
         navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
-
-        actionBar.search.setOnClickListener {
-            navigateToSearch()
-        }
-
-        actionBar.settings.setOnClickListener {
-            navigateToSettings()
-        }
-
-        actionBar.favorite.setOnClickListener {
-            navigateToFavorites()
-        }
-
-        actionBar.plus.setOnClickListener {
-            navigateToAddEvent()
-        }
 
         navigateToNews()
     }
@@ -110,17 +90,45 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
                 is NavigationState.Contact -> navigateToContact()
                 is NavigationState.Invite -> navigateToInvite()
                 is NavigationState.Settings -> navigateToSettings()
+                is NavigationState.Back -> navigateBackwards()
             }
         }
     }
 
     override fun setCurrentlySelectedFragment(fragment: IftFragment) {
-        actionBar.titleText.text = fragment.getActionBarTitle()
+        configureActionBarForSelectedFragment(fragment)
+
         val menuItem = navigation.menu.findItem(getNavigationIdForFragment(fragment))
         menuItem?.isChecked = true
-
-        actionBar.plus.visibility = if (fragment is CalendarFragment.LocalCalendarListFragment) View.VISIBLE else View.GONE
         // TODO: unselect for null?
+    }
+
+    private fun configureActionBarForSelectedFragment(fragment: IftFragment) {
+        setActionBarToDefault()
+
+        customActionBar.titleText.text = fragment.getActionBarTitle()
+        when (fragment) {
+            is CalendarFragment.LocalCalendarListFragment -> {
+                customActionBar.plus.visibility = View.VISIBLE
+            }
+            is SettingsFragment -> {
+                customActionBar.save.apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        fragment.onSaveClicked()
+                    }
+                }
+                customActionBar.cancel.apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        fragment.onCancelClicked()
+                    }
+                }
+                customActionBar.search.visibility = View.GONE
+                customActionBar.settings.visibility = View.GONE
+                customActionBar.favorite.visibility = View.GONE
+            }
+        }
     }
 
     private fun getNavigationIdForFragment(fragment: IftFragment): Int {
@@ -202,11 +210,13 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
 
     private fun navigateToAddEvent() {
         replaceContentWith(addEventFragment)
-        actionBar.plus.visibility = View.VISIBLE
+    }
+
+    private fun navigateBackwards() {
+        supportFragmentManager.popBackStackImmediate()
     }
 
     private fun replaceContentWith(fragment: Fragment) {
-//        setActionBarToDefault()
         if (!fragment.isAdded) {
             supportFragmentManager
                     .beginTransaction()
@@ -217,29 +227,25 @@ class MainActivity : AppCompatActivity(), IftFragment.OnFragmentInteractionListe
     }
 
     private fun setActionBarToDefault() {
-        actionBar.plus.visibility = View.GONE
-    }
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setCustomView(R.layout.action_bar_layout)
 
+
+        customActionBar.search.setOnClickListener {
+            navigateToSearch()
+        }
+
+        customActionBar.settings.setOnClickListener {
+            navigateToSettings()
+        }
+
+        customActionBar.favorite.setOnClickListener {
+            navigateToFavorites()
+        }
+
+        customActionBar.plus.setOnClickListener {
+            navigateToAddEvent()
+        }
+    }
 }
-//    }
-//        }
-//            else -> super.onOptionsItemSelected(item)
-//            }
-//                true
-//                navigateToFavorites()
-//            R.id.favorite -> {
-//            }
-//                true
-//                navigateToSearch()
-//            R.id.search -> {
-//            }
-//                true
-//                navigateToSearch()
-//            R.id.settings -> {
-//        return when (item?.itemId) {
-//    }
-//        return true
-//
-//        menu?.findItem(R.id.favorite)?.icon?.setColorFilter(ContextCompat.getColor(this, R.color.light_neutral_grey), PorterDuff.Mode.MULTIPLY)
-//
-//        menuInflater.inflate(R.menu.action_bar, menu)

@@ -8,15 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SimpleExpandableListAdapter
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.IftFragment
-import io.grandlabs.ift.R
+import android.widget.Toast
+import io.grandlabs.ift.*
 import io.grandlabs.ift.login.SessionManager
 import io.grandlabs.ift.settings.PreferenceCategory.AdvocacyPreferences
 import io.grandlabs.ift.settings.PreferenceCategory.NewsPreferences
 import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.combineLatest
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
@@ -37,11 +37,16 @@ class SettingsFragment : IftFragment() {
     @Inject
     lateinit var linkHelper: LinkHelper
 
+    @Inject
+    lateinit var navigationController: NavigationController
+
     init {
         IftApp.graph.inject(this)
     }
 
     override fun getActionBarTitle(): String = "settings"
+
+    private lateinit var adapter: PreferencesListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -148,7 +153,8 @@ class SettingsFragment : IftFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
-                            view.preferencesList.setAdapter(PreferencesListAdapter(context!!, it.first, it.second))
+                            adapter = PreferencesListAdapter(context!!, it.first, it.second)
+                            view.preferencesList.setAdapter(adapter)
                             view.containerScrollView.fullScroll(View.FOCUS_UP)
                         },
                         onError = {
@@ -161,7 +167,46 @@ class SettingsFragment : IftFragment() {
         return view
     }
 
-    class PreferencesListAdapter(context: Context, val oldNewsPreferences: List<Preference>, val oldAdvocacyPreferences: List<Preference>) : SimpleExpandableListAdapter(
+    fun onSaveClicked() {
+        val progressDialog = context?.showProgressDialog("Saving...")
+
+        listOf(
+                accountInformationManager.setAlertPreferences(emailAlertsSwitch.isChecked, pushNotificationsSwitch.isChecked),
+                accountInformationManager.addNewsAlertCategoryPreferences(adapter.newsPreferencesToAdd),
+                accountInformationManager.removeNewsAlertCategoryPreferences(adapter.newsPreferencesToRemove),
+                accountInformationManager.addAdvocacyAlertCategoryPreferences(adapter.advocacyPreferencesToAdd),
+                accountInformationManager.removeAdvocacyAlertCategoryPreferences(adapter.advocacyPreferencesToRemove)
+        ).combineLatest { !(it.contains(false)) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext =
+                        {
+                            if (it) {
+                                progressDialog?.dismiss()
+                                Toast.makeText(context, "Preferences saved successfully!", Toast.LENGTH_SHORT).show()
+                                navigationController.navigateBack()
+                            } else {
+                                progressDialog?.dismiss()
+                                context?.shortToast("Something went wrong saving. Please try again later.")
+                            }
+                        },
+                        onError =
+                        {
+                            progressDialog?.dismiss()
+                            context?.shortToast("Something went wrong saving. Please try again later.")
+                        }
+                )
+    }
+
+    fun onCancelClicked() {
+        navigationController.navigateBack()
+    }
+
+    class PreferencesListAdapter(
+            context: Context,
+            val oldNewsPreferences: List<Preference>,
+            val oldAdvocacyPreferences: List<Preference>
+    ) : SimpleExpandableListAdapter(
             context,
 
             listOf(
@@ -191,8 +236,13 @@ class SettingsFragment : IftFragment() {
             private const val advocacyGroupPosition = 1
         }
 
-        val userNewsPreferences: MutableList<Preference> = oldNewsPreferences.toMutableList()
-        val userAdvocacyPreferences: MutableList<Preference> = oldAdvocacyPreferences.toMutableList()
+        private val userNewsPreferences: MutableList<Preference> = oldNewsPreferences.toMutableList()
+        private val userAdvocacyPreferences: MutableList<Preference> = oldAdvocacyPreferences.toMutableList()
+
+        val newsPreferencesToAdd: MutableList<Preference> = mutableListOf()
+        val newsPreferencesToRemove: MutableList<Preference> = mutableListOf()
+        val advocacyPreferencesToAdd: MutableList<Preference> = mutableListOf()
+        val advocacyPreferencesToRemove: MutableList<Preference> = mutableListOf()
 
         override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
             val view = super.getChildView(groupPosition, childPosition, isLastChild, convertView, parent)
@@ -204,15 +254,39 @@ class SettingsFragment : IftFragment() {
                     newsGroupPosition -> {
                         if (isChecked) {
                             userNewsPreferences.add(preference)
+
+                            if (!oldNewsPreferences.contains(preference)) {
+                                newsPreferencesToAdd.add(preference)
+                            } else {
+                                newsPreferencesToRemove.remove(preference)
+                            }
                         } else {
                             userNewsPreferences.remove(preference)
+
+                            if (!oldNewsPreferences.contains(preference)) {
+                                newsPreferencesToAdd.remove(preference)
+                            } else {
+                                newsPreferencesToRemove.add(preference)
+                            }
                         }
                     }
                     advocacyGroupPosition -> {
                         if (isChecked) {
                             userNewsPreferences.add(preference)
+
+                            if (!oldAdvocacyPreferences.contains(preference)) {
+                                advocacyPreferencesToAdd.add(preference)
+                            } else {
+                                advocacyPreferencesToRemove.remove(preference)
+                            }
                         } else {
                             userNewsPreferences.remove(preference)
+
+                            if (!oldAdvocacyPreferences.contains(preference)) {
+                                advocacyPreferencesToAdd.remove(preference)
+                            } else {
+                                advocacyPreferencesToRemove.add(preference)
+                            }
                         }
                     }
                 }

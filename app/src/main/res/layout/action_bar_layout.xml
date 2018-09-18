@@ -20,8 +20,34 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/titleText"
         android:gravity="center"
-        android:textSize="20sp"
         android:text="+"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
+        android:fontFamily="@font/century_gothic"
+        android:gravity="center"
+        android:text="save"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentLeft="true"
+        android:fontFamily="@font/century_gothic"
+        android:gravity="center"
+        android:text="cancel"
+        android:textSize="16sp"
         android:visibility="gone" />
 
     <ImageView
