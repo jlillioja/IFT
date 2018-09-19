@@ -10,16 +10,18 @@ import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.IftFragment
 
 import io.grandlabs.ift.R
+import io.grandlabs.ift.sharing.LinkHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_contact.view.*
 import javax.inject.Inject
 
 class ContactFragment : IftFragment() {
 
-    @Inject
     lateinit var contactListAdapter: ContactListAdapter
 
     @Inject lateinit var contactProvider: ContactProvider
+
+    @Inject lateinit var linkHelper: LinkHelper
 
     val loadingSpinner: ProgressBar?
         get() = view?.loadingSpinner
@@ -35,6 +37,7 @@ class ContactFragment : IftFragment() {
 
         listener?.setCurrentlySelectedFragment(this)
 
+        contactListAdapter = ContactListAdapter(context!!, linkHelper)
         view.contactListView.adapter = contactListAdapter
 
         view.swipeRefresh?.setOnRefreshListener {

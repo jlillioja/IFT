@@ -9,11 +9,9 @@ import io.grandlabs.ift.R
 import io.grandlabs.ift.layoutInflater
 import io.grandlabs.ift.sharing.LinkHelper
 import kotlinx.android.synthetic.main.contact_list_item.view.*
-import javax.inject.Inject
 
 
-class ContactListAdapter
-@Inject constructor(
+class ContactListAdapter constructor(
         context: Context,
         private val linkHelper: LinkHelper
 ) : ArrayAdapter<OfficeItem>(context, R.layout.contact_list_item) {
@@ -25,7 +23,7 @@ class ContactListAdapter
 
         view.titleText.text = item.name
         view.addressLine1.text = item.address
-        view.addressLine2.text = "${item.city}, ${item.state} {${item.zip}"
+        view.addressLine2.text = "${item.city}, ${item.state} ${item.zip}"
         view.phoneNumber.text = PhoneNumberUtils.formatNumber(item.phone)
         view.phoneNumber.setOnClickListener { linkHelper.openDialerForNumber(item.phone) }
 
