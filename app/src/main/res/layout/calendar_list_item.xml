@@ -32,14 +32,14 @@
             android:layout_height="wrap_content"
             android:textSize="14.5sp"
             android:textColor="@color/ift_teal"
-            android:fontFamily="@font/helvetica_neue_condensed_bold"
+            android:fontFamily="@font/helvetica"
             android:textStyle="bold"
             android:id="@+id/titleText"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/neutral_grey"
-            android:fontFamily="@font/helvetica_neue_condensed"
+            android:textColor="@color/light_neutral_grey"
+            android:fontFamily="@font/helvetica"
             android:id="@+id/detailText"/>
     </LinearLayout>
 

@@ -18,11 +18,11 @@ class NewsListFragment : IftFragment() {
     @Inject
     lateinit var newsProvider: NewsProvider
 
-    @Inject
-    lateinit var newsAdapter: NewsAdapter
 
     @Inject
     lateinit var navigationController: NavigationController
+
+    lateinit var newsAdapter: NewsAdapter
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
@@ -47,6 +47,7 @@ class NewsListFragment : IftFragment() {
             refresh()
         }
 
+        newsAdapter = NewsAdapter(context!!)
         view.newsListView.adapter = newsAdapter
 
         refresh()

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,7 +11,6 @@
         android:gravity="center">
 
         <TextView
-            android:fontFamily="@font/helvetica"
             android:id="@+id/titleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -18,6 +18,7 @@
             android:layout_marginLeft="17dp"
             android:layout_marginTop="19dp"
             android:layout_weight="1"
+            android:fontFamily="@font/helvetica"
             android:textColor="@color/ift_teal"
             android:textSize="16.5sp" />
 
@@ -34,25 +35,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:fontFamily="@font/helvetica"
-            android:id="@+id/subtitleText"
+        <LinearLayout
+            android:id="@+id/subtitleSection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="17dp"
             android:layout_marginLeft="17dp"
             android:layout_weight="1"
-            android:textColor="@color/neutral_grey"
-            android:textSize="16.5sp"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/boldSubtitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:textColor="@color/light_neutral_grey"
+                android:textSize="16.5sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/subtitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:textColor="@color/light_neutral_grey"
+                android:textSize="16.5sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/addToCalendarButton"
-            android:visibility="gone"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="6dp"
-            android:src="@drawable/add_to_calendar" />
+            android:src="@drawable/add_to_calendar"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -63,6 +83,7 @@
         android:visibility="gone" />
 
     <View
+        android:background="@color/light_neutral_grey"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
@@ -95,7 +116,6 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:fontFamily="@font/helvetica"
                 android:id="@+id/takeActionButton"
                 android:layout_width="223dp"
                 android:layout_height="25dp"
@@ -103,6 +123,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/ift_teal"
+                android:fontFamily="@font/helvetica"
                 android:gravity="center"
                 android:text="@string/take_action"
                 android:textColor="@android:color/white"

@@ -37,11 +37,28 @@ class CalendarDetailFragment : DetailFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val date = item?.dateFrom ?: item?.dateTo
-        if (date != null) {
+        val startDateFormat = SimpleDateFormat("MMMM dd, yyyy 'from' hh':'mm aa", Locale.US)
+        val endDateFormat = SimpleDateFormat("MMMM dd, yyyy 'at' hh':'mm aa", Locale.US)
+
+        val fromDateString = item?.dateFrom?.let { startDateFormat.format(it) }
+        val toDateString = item?.dateTo?.let { endDateFormat.format(it) }
+
+        if (fromDateString != null) {
+            var dateString = fromDateString
+            if (toDateString != null) {
+                dateString += " to $toDateString"
+            }
+
+            view?.subtitleSection?.visibility = View.VISIBLE
+
+            view?.boldSubtitleText?.visibility = View.VISIBLE
+            view?.boldSubtitleText?.text = dateString
+        }
+
+        if (item?.address != null && item?.city != null && item?.state != null) {
+            view?.subtitleSection?.visibility = View.VISIBLE
             view?.subtitleText?.visibility = View.VISIBLE
-            view?.subtitleText?.text = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
-                    .format(date)
+            view?.subtitleText?.text = "${item!!.address}\n${item!!.city}, ${item!!.state}"
         }
 
         view?.addToCalendarButton?.visibility = View.VISIBLE

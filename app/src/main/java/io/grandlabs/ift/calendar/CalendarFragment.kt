@@ -86,9 +86,10 @@ class CalendarFragment : IftFragment() {
         lateinit var calendarManager: CalendarManager
 
         @Inject
-        lateinit var calendarAdapter: CalendarAdapter
-        @Inject
         lateinit var navigationController: NavigationController
+
+        lateinit var calendarAdapter: CalendarAdapter
+
         protected open var itemFilter: (CalendarItem) -> Boolean = { true }
 
         init {
@@ -101,6 +102,7 @@ class CalendarFragment : IftFragment() {
                                   savedInstanceState: Bundle?): View? {
             val view = inflater.inflate(R.layout.fragment_calendar_list, container, false)
 
+            calendarAdapter = CalendarAdapter(context!!)
             view.calendarListView.adapter = calendarAdapter
             view.calendarListView.setOnItemClickListener { _, _, position, _ ->
                 navigationController.navigateTo(NavigationState.CalendarDetail(calendarAdapter.getItem(position)))

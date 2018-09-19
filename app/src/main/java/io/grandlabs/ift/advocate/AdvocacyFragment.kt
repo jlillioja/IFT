@@ -15,8 +15,9 @@ import javax.inject.Inject
 class AdvocacyFragment : IftFragment() {
 
     @Inject lateinit var advocacyProvider: AdvocacyProvider
-    @Inject lateinit var advocacyListAdapter: AdvocacyListAdapter
     @Inject lateinit var navigationController: NavigationController
+
+    lateinit var advocacyListAdapter: AdvocacyListAdapter
 
     val loadingSpinner: ProgressBar?
         get() = view?.loadingSpinner
@@ -31,6 +32,7 @@ class AdvocacyFragment : IftFragment() {
 
         listener?.setCurrentlySelectedFragment(this)
 
+        advocacyListAdapter = AdvocacyListAdapter(context!!)
         view.advocacyListView.adapter = advocacyListAdapter
         view.advocacyListView.setOnItemClickListener { _, _, position, _ ->
             val item = advocacyListAdapter.getItem(position)
