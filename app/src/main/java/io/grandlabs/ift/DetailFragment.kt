@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import io.grandlabs.ift.favorites.FavoritesManager
 import io.grandlabs.ift.sharing.LinkHelper
@@ -13,6 +15,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
+
 
 abstract class DetailFragment : IftFragment() {
 
@@ -47,6 +50,32 @@ abstract class DetailFragment : IftFragment() {
             view.headerImage.visibility = View.GONE
         }, {})
 
+        view.backButton.setOnClickListener {
+            if (view.contentWebView.canGoBack()) {
+                view.contentWebView.goBack()
+            }
+        }
+
+        view.forwardButton.setOnClickListener {
+            if (view.contentWebView.canGoForward()) {
+                view.contentWebView.goForward()
+            }
+        }
+
+        view.contentWebView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                updateBackForwardButtons(view)
+
+                super.onPageFinished(view, url)
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                view?.loadUrl(url)
+
+                return false
+            }
+        }
+
         if (getRedirectUrl().isNullOrBlank()) {
             val css = "<head>" +
                     "<meta name=\"viewport\" content=\"initial-scale=1.0\" />" +
@@ -77,6 +106,20 @@ abstract class DetailFragment : IftFragment() {
         }
 
         return view
+    }
+
+    private fun updateBackForwardButtons(webView: WebView?) {
+        if (webView?.canGoBack() == true) {
+            view?.backButton?.setTextColor(resources.getColor(R.color.ift_teal))
+        } else {
+            view?.backButton?.setTextColor(resources.getColor(R.color.barely_visible_grey))
+        }
+
+        if (webView?.canGoForward() == true) {
+            view?.forwardButton?.setTextColor(resources.getColor(R.color.ift_teal))
+        } else {
+            view?.forwardButton?.setTextColor(resources.getColor(R.color.barely_visible_grey))
+        }
     }
 
     private fun toggleItemIsFavorite() {
