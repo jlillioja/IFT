@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'helvetica';
+    src: url('fonts/helvetica_neue_condensed.otf');
+}
+
+body {
+    font-family: 'helvetica';
+    font-size: 14px;
+    font-weight: normal;
+    color : #8b8d8d;
+}
+

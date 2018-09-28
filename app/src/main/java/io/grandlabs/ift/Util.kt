@@ -5,13 +5,9 @@ import io.reactivex.schedulers.Schedulers
 import java.io.InputStream
 import java.net.URL
 
-fun fetchImageFromUrl(url: String): Observable<Drawable?> {
+fun fetchImageFromUrl(url: String): Observable<Drawable> {
     return Observable.fromCallable {
-        try {
-            val imageStream = URL(url).content as InputStream
-            Drawable.createFromStream(imageStream, "src name")
-        } catch (e: Exception) {
-            null
-        }
+        val imageStream = URL(url).content as InputStream
+        Drawable.createFromStream(imageStream, "src name")
     }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }

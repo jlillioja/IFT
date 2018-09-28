@@ -1,45 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:textSize="16.5sp"
-        android:textColor="@color/ift_teal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginBottom="17dp"/>
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/subtitleText"
-        android:visibility="gone"
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="19dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/helvetica"
+            android:textColor="@color/ift_teal"
+            android:textSize="16.5sp" />
+
+        <ImageView
+            android:id="@+id/favoriteStar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="6dp"
+            android:src="@drawable/star" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16.5sp"
-        android:textColor="@color/neutral_grey"
-        android:layout_marginLeft="17dp"
-        android:layout_marginBottom="17dp"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/subtitleSection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="17dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/boldSubtitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:textColor="@color/light_neutral_grey"
+                android:textSize="16.5sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/subtitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:textColor="@color/light_neutral_grey"
+                android:textSize="16.5sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/addToCalendarButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="6dp"
+            android:src="@drawable/add_to_calendar"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/headerImage"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="75dp" />
+        android:layout_height="75dp"
+        android:visibility="gone" />
 
     <View
+        android:background="@color/light_neutral_grey"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <WebView
         android:id="@+id/contentWebView"
         android:layout_width="match_parent"
-        android:layout_margin="13dp"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_margin="13dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/takeActionSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_neutral_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/takeActionButton"
+                android:layout_width="223dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/ift_teal"
+                android:fontFamily="@font/helvetica"
+                android:gravity="center"
+                android:text="@string/take_action"
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_neutral_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_marginLeft="7dp"
+            android:id="@+id/backButton"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/back"
+            android:fontFamily="@font/helvetica"
+            android:textColor="@color/barely_visible_grey"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_marginLeft="13dp"
+            android:id="@+id/forwardButton"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/forward"
+            android:fontFamily="@font/helvetica"
+            android:textColor="@color/barely_visible_grey"
+            android:textStyle="bold"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/shareByFacebook"
+            android:layout_width="49dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:src="@drawable/facebook" />
+
+        <ImageView
+            android:id="@+id/shareByTwitter"
+            android:layout_width="49dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:src="@drawable/tweet" />
+
+        <ImageView
+            android:id="@+id/shareByEmail"
+            android:layout_width="49dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:src="@drawable/email" />
+
+        <ImageView
+            android:id="@+id/shareBySms"
+            android:layout_width="49dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:src="@drawable/message" />
+
+    </LinearLayout>
 
 </LinearLayout>

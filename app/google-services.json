@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "758211406740",
+    "firebase_url": "https://iftapp-213622.firebaseio.com",
+    "project_id": "iftapp-213622",
+    "storage_bucket": "iftapp-213622.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758211406740:android:c28a10410b69fc5d",
+        "android_client_info": {
+          "package_name": "io.grandlabs.ift"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758211406740-av4bo9j52c9u1d12smu55greb2i3n6sr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZUqzObaOw1SXtnNjMAPTer0fDKC6Fv8U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

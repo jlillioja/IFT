@@ -6,21 +6,26 @@ import dagger.Provides
 import io.grandlabs.ift.IftApp
 import io.grandlabs.ift.NavigationController
 import io.grandlabs.ift.NavigationControllerImpl
-import io.grandlabs.ift.advocate.AdvocateFragment
+import io.grandlabs.ift.advocate.AdvocacyDetailFragment
+import io.grandlabs.ift.advocate.AdvocacyFragment
+import io.grandlabs.ift.calendar.AddEventFragment
 import io.grandlabs.ift.calendar.CalendarFragment
 import io.grandlabs.ift.contact.ContactFragment
+import io.grandlabs.ift.favorites.FavoritesFragment
+import io.grandlabs.ift.invite.InviteFragment
+import io.grandlabs.ift.network.ApiServiceCreator
 import io.grandlabs.ift.network.IftClient
-import io.grandlabs.ift.network.RxServiceCreator
 import io.grandlabs.ift.news.CalendarDetailFragment
 import io.grandlabs.ift.news.NewsDetailFragment
 import io.grandlabs.ift.news.NewsListFragment
+import io.grandlabs.ift.search.SearchFragment
 import io.grandlabs.ift.settings.SettingsFragment
 import javax.inject.Singleton
 
 @Module
 class AndroidModule(private val application: IftApp) {
     @Provides
-    fun provideIftClient(): IftClient = RxServiceCreator.createService(IftClient::class.java)
+    fun provideIftClient(): IftClient = ApiServiceCreator.createService(IftClient::class.java)
 
     @Provides
     fun provideContext(): Context = application
@@ -43,7 +48,11 @@ class AndroidModule(private val application: IftApp) {
 
     @Provides
     @Singleton
-    fun provideAdvocateFragment(): AdvocateFragment = AdvocateFragment()
+    fun provideAdvocacyFragment(): AdvocacyFragment = AdvocacyFragment()
+
+    @Provides
+    @Singleton
+    fun provideAdvocacyDetailFragment():AdvocacyDetailFragment = AdvocacyDetailFragment()
 
     @Provides
     @Singleton
@@ -51,7 +60,23 @@ class AndroidModule(private val application: IftApp) {
 
     @Provides
     @Singleton
+    fun provideInviteFragment(): InviteFragment = InviteFragment()
+
+    @Provides
+    @Singleton
     fun provideSettingsFragment(): SettingsFragment = SettingsFragment()
+
+    @Provides
+    @Singleton
+    fun provideSearchFragment(): SearchFragment = SearchFragment()
+
+    @Provides
+    @Singleton
+    fun provideFavoritesFragment(): FavoritesFragment = FavoritesFragment()
+
+    @Provides
+    @Singleton
+    fun provideAddEventFragment(): AddEventFragment = AddEventFragment()
 
     @Provides
     @Singleton

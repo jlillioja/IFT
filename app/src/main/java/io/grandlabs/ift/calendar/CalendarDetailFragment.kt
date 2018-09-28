@@ -1,26 +1,30 @@
 package io.grandlabs.ift.news
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.NavigationController
-import io.grandlabs.ift.NavigationState
-import io.grandlabs.ift.R
-import io.grandlabs.ift.network.CalendarItem
+import io.grandlabs.ift.*
+import io.grandlabs.ift.calendar.CalendarItem
+import io.grandlabs.ift.favorites.FavoritesManager
+import io.grandlabs.ift.sharing.LinkHelper
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_web_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class CalendarDetailFragment: Fragment() {
-
+class CalendarDetailFragment : DetailFragment() {
     @Inject
     lateinit var navigationController: NavigationController
+
+    @Inject
+    override lateinit var linkHelper: LinkHelper
+
+    @Inject
+    override lateinit var favoritesManager: FavoritesManager
 
     var item: CalendarItem? = null
 
@@ -31,33 +35,56 @@ class CalendarDetailFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_web_item, container, false)
+        val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val title = view.titleText
-        title.text = item?.title
+        val startDateFormat = SimpleDateFormat("MMMM dd, yyyy 'from' hh':'mm aa", Locale.US)
+        val endDateFormat = SimpleDateFormat("MMMM dd, yyyy 'at' hh':'mm aa", Locale.US)
 
-        val date = item?.dateFrom ?: item?.dateTo
-        if (date != null) {
-            view.subtitleText.visibility = View.VISIBLE
-            view.subtitleText.text = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
-                    .format(date)
+        val fromDateString = item?.dateFrom?.let { startDateFormat.format(it) }
+        val toDateString = item?.dateTo?.let { endDateFormat.format(it) }
+
+        if (fromDateString != null) {
+            var dateString = fromDateString
+            if (toDateString != null) {
+                dateString += " to $toDateString"
+            }
+
+            view?.subtitleSection?.visibility = View.VISIBLE
+
+            view?.boldSubtitleText?.visibility = View.VISIBLE
+            view?.boldSubtitleText?.text = dateString
         }
 
-        val contentWebView = view.findViewById<WebView>(R.id.contentWebView)
+        if (item?.address != null && item?.city != null && item?.state != null) {
+            view?.subtitleSection?.visibility = View.VISIBLE
+            view?.subtitleText?.visibility = View.VISIBLE
+            view?.subtitleText?.text = "${item!!.address}\n${item!!.city}, ${item!!.state}"
+        }
 
-        val css = "<head>" +
-                "<meta name=\"viewport\" content=\"initial-scale=1.0\" />" +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"webview.css\">" +
-                "</head>"
-
-        val content = "<body>${item?.description}</body>"
-
-        Log.d(LOG_TAG, "$css+$content")
-        contentWebView.loadData(css + content, "text/html; charset=UTF-8", null)
+        view?.addToCalendarButton?.visibility = View.VISIBLE
+        view?.addToCalendarButton?.setColorFilter(ContextCompat.getColor(context!!, R.color.light_neutral_grey))
+        view?.addToCalendarButton?.setOnClickListener {
+            linkHelper.addEventToCalendar(item!!)
+        }
 
         return view
     }
 
+    override fun getActionBarTitle(): String = item?.title ?: "calendar"
+
     private val LOG_TAG = this::class.simpleName
+
+    override fun getItem(): WebItem = item!!
+
+    override fun getTitle(): String? = item?.title
+
+    override fun getRedirectUrl(): String? = null
+
+    override fun getBodyHtml(): String? = item?.description
+
+    override fun fetchImage(): Observable<Drawable> {
+        return Observable.error(Throwable("No image."))
+    }
+
 
 }

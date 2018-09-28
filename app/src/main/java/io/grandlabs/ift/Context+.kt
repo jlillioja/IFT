@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
+import android.widget.Toast
 
 inline val Context.defaultSharedPreferences: SharedPreferences
     get() = PreferenceManager.getDefaultSharedPreferences(this)
@@ -18,4 +19,8 @@ fun Context.showProgressDialog(text: String): ProgressDialog {
     progress.setCancelable(false)
     progress.show()
     return progress
+}
+
+fun Context.shortToast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

@@ -2,6 +2,8 @@ package io.grandlabs.ift.network
 
 import android.util.Log
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
 import io.grandlabs.ift.BuildConfig
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -10,12 +12,8 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import com.google.gson.JsonSyntaxException
-import com.google.gson.JsonParser
 
-
-
-object RxServiceCreator {
+object ApiServiceCreator {
 
     private const val defaultTimeout = 5L
 
@@ -26,7 +24,6 @@ object RxServiceCreator {
             .also {
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor(CustomHttpLogging())
-//                    val logging = HttpLoggingInterceptor()
 
                     logging.level = HttpLoggingInterceptor.Level.BODY
                     it.addInterceptor(logging)
@@ -53,9 +50,12 @@ object RxServiceCreator {
     private val gson = GsonBuilder().create()
     private val rxAdapter = RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
 
-    private const val apiUrl = "https://api-dev.ift-aft.org/app/"
+    private const val apiUrl = "https://api.ift-aft.org/app/"
+    private const val apiDevUrl = "https://api-dev.ift-aft.org/app/"
+    val baseUrl = if (BuildConfig.DEBUG) apiDevUrl else apiUrl
+
     private val builder = Retrofit.Builder()
-            .baseUrl(apiUrl)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(rxAdapter)
 

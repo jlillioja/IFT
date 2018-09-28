@@ -1,48 +1,43 @@
 package io.grandlabs.ift.news
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.ProgressBar
-import io.grandlabs.ift.IftApp
-import io.grandlabs.ift.NavigationController
-import io.grandlabs.ift.NavigationState
-import io.grandlabs.ift.R
+import android.widget.Toast
+import io.grandlabs.ift.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_news.view.*
 import javax.inject.Inject
 
-class NewsListFragment : Fragment() {
+class NewsListFragment : IftFragment() {
 
     @Inject
     lateinit var newsProvider: NewsProvider
 
-    @Inject
-    lateinit var newsAdapter: NewsAdapter
 
     @Inject
     lateinit var navigationController: NavigationController
 
-    val loadingSpinner: ProgressBar?
-        get() = view?.findViewById(R.id.loadingSpinner)
-
+    lateinit var newsAdapter: NewsAdapter
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
     val LOG_TAG: String = this::class.simpleName!!
 
+    init {
+        IftApp.graph.inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        IftApp.graph.inject(this)
 
         val view = inflater.inflate(R.layout.fragment_news, container, false)
+
+        listener?.setCurrentlySelectedFragment(this)
 
         view.newsListView.setOnItemClickListener { _, _, position, _ ->
             navigationController.navigateTo(NavigationState.NewsDetail(newsAdapter.getItem(position)))
@@ -52,6 +47,7 @@ class NewsListFragment : Fragment() {
             refresh()
         }
 
+        newsAdapter = NewsAdapter(context!!)
         view.newsListView.adapter = newsAdapter
 
         refresh()
@@ -65,15 +61,22 @@ class NewsListFragment : Fragment() {
         super.onDestroy()
     }
 
+    override fun getActionBarTitle(): String = "news"
+
     private fun refresh() {
         newsProvider.getNews()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    loadingSpinner?.visibility = View.GONE
-                    view?.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)?.isRefreshing = false
+                    view?.loadingSpinner?.visibility = View.GONE
+                    view?.swipeRefresh?.isRefreshing = false
                     newsAdapter.clear()
                     newsAdapter.addAll(it.items)
                     newsAdapter.notifyDataSetChanged()
-                }, {}, {}).addTo(disposables)
+                }, {
+                    view?.loadingSpinner?.visibility = View.GONE
+                    view?.swipeRefresh?.isRefreshing = false
+                    Toast.makeText(context, "Failed to load.", Toast.LENGTH_SHORT).show()
+                    Log.d(LOG_TAG, it.localizedMessage)
+                }, {}).addTo(disposables)
     }
 }

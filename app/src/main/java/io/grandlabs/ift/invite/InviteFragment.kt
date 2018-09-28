@@ -1,18 +1,20 @@
 package io.grandlabs.ift.invite
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.grandlabs.ift.IftApp
+import io.grandlabs.ift.IftFragment
 import io.grandlabs.ift.R
-import io.grandlabs.ift.calendar.CalendarFragment
+import io.grandlabs.ift.sharing.LinkHelper
+import kotlinx.android.synthetic.main.fragment_invite.view.*
 import javax.inject.Inject
 
-class InviteFragment
-@Inject constructor(): Fragment() {
+
+class InviteFragment : IftFragment() {
+
+    @Inject lateinit var linkHelper: LinkHelper
 
     init {
         IftApp.graph.inject(this)
@@ -22,6 +24,32 @@ class InviteFragment
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_invite, container, false)
 
+        listener?.setCurrentlySelectedFragment(this)
+
+        view.facebook_button.setOnClickListener { onClickFacebook() }
+        view.twitter_button.setOnClickListener { onClickTwitter() }
+        view.email_button.setOnClickListener { onClickEmail() }
+        view.message_button.setOnClickListener { onClickMessage() }
+
         return view
     }
+
+    override fun getActionBarTitle(): String = "invite friends"
+
+    private fun onClickFacebook() {
+        linkHelper.shareAppLinkByFacebook(this)
+    }
+
+    private fun onClickTwitter() {
+        linkHelper.shareAppLinkByTwitter()
+    }
+
+    private fun onClickEmail() {
+        linkHelper.shareAppLinkByEmail()
+    }
+
+    private fun onClickMessage() {
+        linkHelper.shareAppBySms()
+    }
+
 }
