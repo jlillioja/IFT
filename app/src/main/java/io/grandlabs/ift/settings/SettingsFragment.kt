@@ -159,6 +159,10 @@ class SettingsFragment : IftFragment() {
                         },
                         onError = {
                             Log.d(LOG_TAG, it.localizedMessage)
+
+                            adapter = PreferencesListAdapter(context!!, listOf(), listOf())
+                            view.preferencesList.setAdapter(adapter)
+                            view.containerScrollView.fullScroll(View.FOCUS_UP)
                         },
                         onComplete = {}
                 )
