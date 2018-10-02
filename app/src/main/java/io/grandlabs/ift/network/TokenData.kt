@@ -19,7 +19,6 @@ data class TokenData(
         @SerializedName("updated_at") val updatedAt: String,
         @SerializedName("localNum") val localNum: String,
         @SerializedName("councilID") val councilId: String,
-        @SerializedName("role") val role: List<String>,
         @SerializedName("scope") val scope: List<String>,
         @SerializedName("amr") val amr: List<String>
 )

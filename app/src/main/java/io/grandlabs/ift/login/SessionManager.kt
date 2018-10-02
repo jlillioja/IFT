@@ -12,7 +12,6 @@ import io.grandlabs.ift.network.TokenData
 import io.grandlabs.ift.network.TokenRequest
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
-import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -117,7 +116,6 @@ class SessionManager
 
         val decodedInfo = Base64.decode(encodedInfo, 0)
         val recodedInfo = String(decodedInfo)
-        val json = JSONObject(recodedInfo)
         tokenData = GsonBuilder().create().fromJson(recodedInfo, TokenData::class.java)
     }
 
